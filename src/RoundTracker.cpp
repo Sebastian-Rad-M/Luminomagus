@@ -1,7 +1,7 @@
 #include "ActiveRun.h"
 #include "RoundTracker.h"
 RoundTracker::RoundTracker(const ActiveRun& runData)
-	: currentRun(runData),   manaPool(0, 0, 0),currentScore(0), stormCount(0) {
+	: manaPool(0, 0, 0),currentRun(runData),   currentScore(0), stormCount(0) {
 	targetScore = currentRun.calcTargetScore();
 }
 

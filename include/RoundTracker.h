@@ -22,7 +22,7 @@ class RoundTracker {
 	int currentScore;
 	int targetScore;
 	int stormCount;
-	int nextSpellMultiplier = 1;
+	//int nextSpellMultiplier = 1;
 
    public:
 	explicit RoundTracker(const ActiveRun& runData);
