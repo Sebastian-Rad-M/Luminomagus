@@ -41,9 +41,7 @@ const std::vector<ShopItem<Card>>& Shop::getCards() const { return cardStock; }
 const std::vector<ShopItem<IRelic>>& Shop::getRelics() const { return relicStock; }
 
 BuyResult Shop::buyCard(int index, PlayerInfo& player) {
-	if (index < 0 || index >= cardStock.size()) {
-		return BuyResult::INVALID;
-	}
+	if (index < 0 || static_cast<size_t>(index) >= cardStock.size()) return BuyResult::INVALID;
 	if (cardStock[index].isSold) {
 		return BuyResult::SOLD_OUT;
 	}
@@ -57,7 +55,7 @@ BuyResult Shop::buyCard(int index, PlayerInfo& player) {
 }
 
 BuyResult Shop::buyRelic(int index, PlayerInfo& player) {
-	if (index < 0 || index >= relicStock.size()) {
+	if (index < 0 || static_cast<size_t>(index) >= relicStock.size()) {
 		return BuyResult::INVALID;
 	}
 	if (relicStock[index].isSold) {

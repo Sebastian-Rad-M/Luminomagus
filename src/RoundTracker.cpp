@@ -1,7 +1,7 @@
 #include "ActiveRun.h"
 #include "RoundTracker.h"
 RoundTracker::RoundTracker(const ActiveRun& runData)
-	: currentRun(runData), currentScore(0), stormCount(0), manaPool(0, 0, 0) {
+	: currentRun(runData), currentScore(0),  manaPool(0, 0, 0), stormCount(0) {
 	targetScore = currentRun.calcTargetScore();
 }
 
@@ -39,7 +39,7 @@ bool RoundTracker::promptDiscard() {
 	while (true) {
 		std::cout << "  Choose a card to discard (1-" << handCards.size() << "): ";
 
-		if (std::cin >> choice && choice >= 1 && choice <= handCards.size()) {
+		if (std::cin >> choice && choice >= 1 && static_cast<size_t>(choice) <= handCards.size()) {
 			break;
 		}
 		std::cin.clear();
@@ -163,8 +163,8 @@ int RoundTracker::requestHandTarget() {
 	}
 
 	std::cout << "\n  --- TARGET ---\n";
-	for (int i = 0; i < handCards.size(); i++) {
-		std::cout << "  [" << (i + 1) << "] " << *handCards[i] << "\n";
+for (size_t i = 0; i < handCards.size(); i++) {
+			std::cout << "  [" << (i + 1) << "] " << *handCards[i] << "\n";
 	}
 
 	std::cout << "  Select a card (1-" << handCards.size() << "): ";

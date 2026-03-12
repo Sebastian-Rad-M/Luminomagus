@@ -2,7 +2,7 @@
 
 RelicZone::RelicZone(int maxCapacity) : capacity(maxCapacity) {}
 bool RelicZone::addRelic(std::shared_ptr<IRelic> relic) {
-	if (relics.size() >= capacity) {
+	if (relics.size() >= static_cast<size_t>(capacity)) {
 		std::cout << "  [!] Relic Zone is full! Cannot add " << relic->getName() << ".\n";
 		return false;
 	}
@@ -12,9 +12,7 @@ bool RelicZone::addRelic(std::shared_ptr<IRelic> relic) {
 }
 
 void RelicZone::removeRelic(int index) {
-        if (index >= 0 && index < relics.size()) {
-            relics.erase(relics.begin() + index);
-        }
+if (index >= 0 && static_cast<size_t>(index) < relics.size()) relics.erase(relics.begin() + index);
     }
 
 
