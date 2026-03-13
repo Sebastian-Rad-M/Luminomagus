@@ -106,7 +106,6 @@ void CardDatabase::loadAllCards() {
 	appelDuVide.addEffect(std::make_unique<DiscardEffect>(1));
 	library["c_appel_du_vide"] = std::move(appelDuVide);
 	
-	// Uncommons
 	Card dispersion("Dispersion", 2, 0, 1, 0, 'C');
 	dispersion.addEffect(std::make_unique<DrawCardEffect>(2));
 	dispersion.addEffect(std::make_unique<AddManaEffect>(1, 1, 1));
@@ -117,7 +116,12 @@ void CardDatabase::loadAllCards() {
 	siftTheScrolls.addEffect(std::make_unique<DrawCardEffect>(2));
 	siftTheScrolls.addEffect(std::make_unique<DiscardEffect>(2));
 	library["c_siftTheScrolls"] =siftTheScrolls;
-	
+		
+	Card catalogue("Catalogue", 0, 0, 2, 0, 'U');
+	catalogue.addEffect(std::make_unique<DrawCardEffect>(3));
+	library["c_siftTheScrolls"] =catalogue;
+	// Uncommons
+
 	Card interfereWithThePattern("Interfere with the pattern", 0, 0, 1, 1, 'U'); 
 	interfereWithThePattern.addEffect(std::make_unique<LambdaEffect>(
     [](RoundTracker& state) {
@@ -151,67 +155,141 @@ library["c_interfere_with_the_pattern"] = std::move(interfereWithThePattern);
 	reflect.addEffect(
 		std::make_unique<ApplyStatusEffect>(std::make_unique<OverchargeStatus>(1)));
 	library["c_reflect"] = reflect;
-// 3 Generic, 1 Green, 1 Blue, Uncommon. 
-// (Adjust the cost arguments to match your exact Card constructor order!)
-Card adNauseum("Ad nauseum", 2, 0, 1, 1,'U'); 
+	// 3 Generic, 1 Green, 1 Blue, Uncommon. 
+	// (Adjust the cost arguments to match your exact Card constructor order!)
+	Card adNauseum("Ad nauseum", 2, 0, 1, 1,'U'); 
 
-adNauseum.addEffect(std::make_unique<LambdaEffect>([](RoundTracker& state) {
-		auto& deck = state.getDeck();auto& hand = state.getHand();int totalCostRevealed = 0;
-        std::cout << "\n  --- AD NAUSEUM ---\n";
-        while (true) {
-            if (deck.getCards().empty())  break;
-            auto topCard = deck.popTopCard();
-            int cardCost = topCard->totalCost(); 
-            totalCostRevealed += cardCost;
-            hand.addCard(topCard);
+	adNauseum.addEffect(std::make_unique<LambdaEffect>([](RoundTracker& state) {
+			auto& deck = state.getDeck();auto& hand = state.getHand();int totalCostRevealed = 0;
+			std::cout << "\n  --- AD NAUSEUM ---\n";
+			while (true) {
+				if (deck.getCards().empty())  break;
+				auto topCard = deck.popTopCard();
+				int cardCost = topCard->totalCost(); 
+				totalCostRevealed += cardCost;
+				hand.addCard(topCard);
 
-            std::cout << "  --> Revealed: " << topCard->getName() 
-                      << " (Cost: " << cardCost << "). Total so far: " 
-                      << totalCostRevealed << "/13\n";
+				std::cout << "  --> Revealed: " << topCard->getName() 
+						<< " (Cost: " << cardCost << "). Total so far: " 
+						<< totalCostRevealed << "/13\n";
 
-            if (totalCostRevealed > 13) {
-                std::cout << "  [!!!] Total cost exceeded 13 (" << totalCostRevealed << "). YOU LOSE.\n";
-                state.addScoreToTarget(9999); 
-				std::cout << "Please concede here";
-				//TODO: make an actual lose the game func
-                break;
-            }
-			std::cout << "\n  [1] Reveal another card\n";
-            std::cout << "  [2] Stop here\n";
-            int choice = readInt(1, 2);
-            if (choice == 2) {
-                std::cout << "  --> You stepped back from the brink. Ad Nauseum ends.\n";
-                break;
-            }
-        }
+				if (totalCostRevealed > 13) {
+					std::cout << "  [!!!] Total cost exceeded 13 (" << totalCostRevealed << "). YOU LOSE.\n";
+					state.addScoreToTarget(9999); 
+					std::cout << "Please concede here";
+					//TODO: make an actual lose the game func
+					break;
+				}
+				std::cout << "\n  [1] Reveal another card\n";
+				std::cout << "  [2] Stop here\n";
+				int choice = readInt(1, 2);
+				if (choice == 2) {
+					std::cout << "  --> You stepped back from the brink. Ad Nauseum ends.\n";
+					break;
+				}
+			}
+		}
+	));
+
+	library["c_ad_nauseum"] = std::move(adNauseum);
+
+	Card internalReflection("Internal Reflection", 0, 0, 0, 2, 'U'); // 2 Green, Uncommon
+
+	internalReflection.addEffect(std::make_unique<LambdaEffect>(
+		[](RoundTracker& state) {
+			auto& hand = state.getHand();
+			//auto& deck = state.getDeck();
+			auto& grave = state.getGraveyard();
+			int maxX = hand.getCards().size();
+			std::cout<<"Choose an X(lower than"<<maxX<<")";
+			int x = readInt(0, maxX);
+			for (int i = 0; i < x; i++) {
+				auto& handCards = hand.getCards();
+				for (size_t j = 0; j < handCards.size(); j++) {
+					std::cout << "  [" << (j + 1) << "] " << handCards[j]->getName() << "\n";
+				}
+				int choice = readInt(1, handCards.size());
+				int index = choice - 1;
+
+				std::cout << "  --> Discarded " << handCards[index]->getName() << "\n";
+				grave.addCard(handCards[index]);
+				hand.removeCard(index);
+			}
+		}
+	));
+	library["c_internal_reflection"] = std::move(internalReflection);
+
+	Card strokeTheFadingEmbers("Stroke the fading embers", 0, 2, 0, 0, 'U'); 
+	strokeTheFadingEmbers.addEffect(std::make_unique<AddManaEffect>(4, 0, 0)); 
+	library["c_stroke_the_fading_embers"] = std::move(strokeTheFadingEmbers);
+
+	Card radiantDecay("Radiant Decay", 0, 1, 0, 1, 'U'); 
+
+radiantDecay.addEffect(std::make_unique<LambdaEffect>([](RoundTracker& state) {
+        auto& grave = state.getGraveyard();
+        auto& graveCards = grave.getCards();
+        if (graveCards.empty()) return;
+        for (size_t i = 0; i < graveCards.size(); i++)std::cout << "  [" << (i + 1) << "] " << graveCards[i]->getName() << "\n";
+        int index = readInt(1, graveCards.size()) - 1;
+        auto target = graveCards[index];
+        state.addMana(target->getRedCost()+target-> getGenericCost(), target->getBlueCost(), target->getGreenCost());
+        state.getExile().addCard(target);
+        grave.removeCard(index); 
     }
 ));
 
-library["c_ad_nauseum"] = std::move(adNauseum);
-
-
+library["c_radiant_decay"] = std::move(radiantDecay);
 	// Rares and Legendaries
-	Card ancestralRecall("Ancestral Recall", 0, 0, 1, 0, 'R');
-	ancestralRecall.addEffect(std::make_unique<DrawCardEffect>(3));
-	library["c_ancestral_recall"] = ancestralRecall;
+	Card recallWisdom("Recall Wisdom", 0, 0, 1, 0, 'R');
+	recallWisdom.addEffect(std::make_unique<DrawCardEffect>(3));
+	library["c_recallWisdom"] = recallWisdom;
 
-	Card graveBlast("Grave Blast", 1, 1, 0, 0, 'C'); // Cost: 1 Red, Rare
-	graveBlast.addEffect(std::make_unique<LambdaEffect>([](RoundTracker& state) 
+	Card ponderTheSilence("Ponder the silence", 0, 0, 1, 0, 'R');
+	ponderTheSilence.addEffect(std::make_unique<StormEffect>((std::make_unique<DrawCardEffect>(3))));
+	library["c_ponderTheSilence"] = ponderTheSilence;
+
+
+	Card doomsday("Doomsday", 0, 0, 2, 1, 'L'); // 2 Blue, 1 Green, Legendary
+	doomsday.addEffect(std::make_unique<LambdaEffect>([](RoundTracker& state) {
+        auto& grave = state.getGraveyard();
+        auto& deck = state.getDeck();
+        auto& exile = state.getExile();
+        while (!grave.getCards().empty())deck.addCard(grave.popTopCard()); 
+        std::vector<std::shared_ptr<Card>> purgatory;
+        while (!deck.getCards().empty()) purgatory.push_back(deck.popTopCard());
+		int cardsToPick = std::min(5, (int)purgatory.size());
+        std::vector<std::shared_ptr<Card>> chosenCards;
+        for (int p = 0; p < cardsToPick; p++) {
+            std::cout << "\nPick " << (p + 1) << " of " << cardsToPick << ") ---\n";
+            for (size_t i = 0; i < purgatory.size(); i++)std::cout << "  [" << (i + 1) << "] " << purgatory[i]->getName() << "\n";
+            int choice = readInt(1, purgatory.size());
+            int index = choice - 1;
+            chosenCards.push_back(purgatory[index]);
+            purgatory.erase(purgatory.begin() + index);
+        }
+        int exiledCount = purgatory.size();
+        for (auto& leftover : purgatory)exile.addCard(leftover);
+        std::cout << "\n  --> " << exiledCount << " remaining cards have been EXILED.\n";
+        for (auto& c : chosenCards) deck.addCard(c);
+            }));
+	library["c_doomsday"] = std::move(doomsday);
+
+	Card symphonyOfDust("Symphony of Dust", 1, 1, 0, 0, 'R'); // Cost: 1 Red, Rare
+	symphonyOfDust.addEffect(std::make_unique<LambdaEffect>([](RoundTracker& state) 
 	{
         auto& grave = state.getGraveyard();
         auto& exile = state.getExile();        
         int cardsToExile = grave.getCards().size();
-        if (cardsToExile > 0) {
             while (!grave.getCards().empty()) {
                 exile.addCard(grave.popTopCard()); 
             }
             state.addScore(5*cardsToExile); 
             std::cout << "  --> Exiled " << cardsToExile << " cards! Dealt " << 5* cardsToExile << " damage!\n";
-        } else std::cout << "  --> Graveyard was empty. 0 damage dealt.\n";}));
-	library["c_grave_blast"] = std::move(graveBlast);
+        }));
+	library["c_symphonyOfDust"] = std::move(symphonyOfDust);
 	
-	Card memoryDredge("Memory Dredge", 0, 2, 0, 0,'C'); // Cost: 2 Blue. Rare.
-	memoryDredge.addEffect(std::make_unique<LambdaEffect>(
+	Card digTroughMemories("Dig through memories", 1, 0, 0, 1,'U'); 
+	digTroughMemories.addEffect(std::make_unique<LambdaEffect>(
     [](RoundTracker& state) {
         auto& grave = state.getGraveyard();
 		auto& exile = state.getExile();
@@ -224,21 +302,19 @@ library["c_ad_nauseum"] = std::move(adNauseum);
         }
 		int numToExile = -1;
         while (numToExile < 0 || numToExile > maxExile) {
-            std::cout << "  Graveyard has " << maxExile << " cards.\n";
-            std::cout << "  How many do you want to exile from the top? (0 - " << maxExile << "): ";
+            std::cout << "  Graveyard has " << maxExile << " cards.\n"<< "  How many do you want to exile from the top? (0 - " << maxExile << "): ";
             std::cin >> numToExile;
             if (std::cin.fail()) {std::cin.clear(); std::cin.ignore(10000, '\n');numToExile = -1; }
         }
         if (numToExile == 0) return; 
-
         for (int i = 0; i < numToExile; i++) exile.addCard(grave.popTopCard());  //TODO:maybe make em pick? nah, its a feature
         std::vector<std::shared_ptr<Card>> revealed;
-        int cardsToLookAt = std::min(numToExile, (int)deck.getCards().size());
-        for (int i = 0; i < cardsToLookAt; i++) revealed.push_back(deck.popTopCard());
-        int picksAllowed = (numToExile >= 5) ? 2 : 1; 
-        picksAllowed = std::min(picksAllowed, (int)revealed.size());
-        for (int p = 0; p < picksAllowed; p++) {
-            std::cout << "\n  --- MEMORY DREDGE (Pick " << (p + 1) << "/" << picksAllowed << ") ---\n";
+        int cardsC = std::min(numToExile, (int)deck.getCards().size());
+        for (int i = 0; i < cardsC; i++) revealed.push_back(deck.popTopCard());
+        int picks = (numToExile >= 5) ? 2 : 1; 
+        picks = std::min(picks, (int)revealed.size());
+        for (int p = 0; p < picks; p++) {
+            std::cout << "\n  --- MEMORY DREDGE (Pick " << (p + 1) << "/" << picks << ") ---\n";
             for (size_t i = 0; i < revealed.size(); i++) std::cout << "  [" << (i + 1) << "] " << revealed[i]->getName() << "\n";
             int choice = 0;
             while (choice < 1 ||static_cast<size_t>(choice) > revealed.size()) {
@@ -262,11 +338,11 @@ library["c_ad_nauseum"] = std::move(adNauseum);
     }
 ));
 
-library["c_memory_dredge"] = std::move(memoryDredge);
+library["c_digTroughMemories"] = std::move(digTroughMemories);
 	
-Card blackLotus("Black Lotus", 0, 0, 0, 0, 'L');
-	blackLotus.addEffect(std::make_unique<AddManaEffect>(3, 3, 3));
-	library["c_black_lotus"] = blackLotus;
+Card fleurDuNeant("Fleur du neant", 0, 0, 0, 0, 'L');
+	fleurDuNeant.addEffect(std::make_unique<AddManaEffect>(3, 3, 3));
+	library["c_fleurDuNeant"] =fleurDuNeant;
 
 	// TODO: JSON PARSER
 }
