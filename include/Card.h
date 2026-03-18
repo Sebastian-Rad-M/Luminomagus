@@ -2,7 +2,7 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include "Effect.h"
+class IEffect;
 
 class modifier;
 class RoundTracker;

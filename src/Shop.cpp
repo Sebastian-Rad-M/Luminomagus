@@ -1,6 +1,7 @@
 
 #include <memory>
 #include <vector>
+#include "PlayerInfo.h"
 
 #include "CardDatabase.h"
 #include "RelicFactory.h"

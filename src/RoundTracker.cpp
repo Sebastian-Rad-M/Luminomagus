@@ -1,8 +1,8 @@
 #include "ActiveRun.h"
 #include "RoundTracker.h"
-RoundTracker::RoundTracker(const ActiveRun& runData)
-	: manaPool(0, 0, 0),currentRun(runData),   currentScore(0), stormCount(0) {
-	targetScore = currentRun.calcTargetScore();
+RoundTracker::RoundTracker(const ActiveRun& runData, IPlayerPrompt* uiPrompt)
+    : manaPool(0, 0, 0), currentRun(runData), currentScore(0), stormCount(0), isLost(false), ui(uiPrompt) { // Initialize ui
+    targetScore = currentRun.calcTargetScore();
 }
 
 void RoundTracker::drawCard() {

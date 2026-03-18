@@ -3,59 +3,61 @@
 #include <memory>
 #include <string>
 
-#include "Card.h"
+// Forward declarations
 class Card;
 class RoundTracker;
+class CardZone;
 
 class IStatus {
-   protected:
-	int charges;
+protected:
+    int charges;
 
-   public:
-	IStatus(int startingCharges) : charges(startingCharges) {}
-	virtual ~IStatus() = default;
-	virtual std::string getName() const = 0;
-	bool isExpired() const { return charges <= 0; }
-	virtual void modifyCost(int& /*r*/, int& /*b*/, int& /*g*/, int& /*generic*/) {}
-	virtual void onCardPlayed(Card& /*card*/, RoundTracker& /*state*/) {}
-	
-	virtual void modifyDestination(CardZone*& /*destination*/, RoundTracker& /*state*/) {}
-	virtual std::unique_ptr<IStatus> clone() const = 0;
+public:
+    IStatus(int startingCharges) : charges(startingCharges) {}
+    virtual ~IStatus() = default;
+    
+    virtual std::string getName() const = 0;
+    bool isExpired() const { return charges <= 0; }
+    
+    virtual void modifyCost(int& /*r*/, int& /*b*/, int& /*g*/, int& /*generic*/) {}
+    virtual void onCardPlayed(Card& /*card*/, RoundTracker& /*state*/) {}
+    virtual void modifyDestination(CardZone*& /*destination*/, RoundTracker& /*state*/) {}   
+    virtual std::unique_ptr<IStatus> clone() const = 0;
 };
 
 class OverchargeStatus : public IStatus {
-   public:
-	explicit OverchargeStatus(int c = 1) : IStatus(c) {}
-	std::string getName() const override { return "Overcharged"; }
+public:
+    explicit OverchargeStatus(int c = 1) : IStatus(c) {}
+    std::string getName() const override { return "Overcharged"; }
 
-	std::unique_ptr<IStatus> clone() const override {
-		return std::make_unique<OverchargeStatus>(charges);
-	}
+    std::unique_ptr<IStatus> clone() const override {
+        return std::make_unique<OverchargeStatus>(charges);
+    }
 
-	void onCardPlayed(Card& card, RoundTracker& state) override {
-		if (charges > 0) {
-			std::cout << " ![Overcharge] Copy spell!\n";
-			card.play(state);
-			charges--;
-		}
-	}
+    // Implementation moved to .cpp
+    void onCardPlayed(Card& card, RoundTracker& state) override;
 };
+
 class EchoStatus : public IStatus {
 public:
     explicit EchoStatus(int c = 1) : IStatus(c) {}
     std::string getName() const override { return "Echo"; }
+    
     std::unique_ptr<IStatus> clone() const override {
         return std::make_unique<EchoStatus>(charges);
     }
-    virtual void onCardPlayed(Card& card, RoundTracker& state) override;
     
+    void onCardPlayed(Card& card, RoundTracker& state) override;
 };
+
 class GlobalExileStatus : public IStatus {
 public:
     explicit GlobalExileStatus(int c) : IStatus(c) {}
     std::string getName() const override { return "Dreaming of the past"; }
+    
     std::unique_ptr<IStatus> clone() const override {
         return std::make_unique<GlobalExileStatus>(charges);
     }
-   virtual void modifyDestination(CardZone*& destination, RoundTracker& state) override;
+    
+    void modifyDestination(CardZone*& destination, RoundTracker& state) override;
 };

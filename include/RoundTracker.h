@@ -9,6 +9,7 @@
 #include "RelicZone.h"
 #include "Status.h"
 #include "View.h"
+#include "IPlayerPrompt.h"
 class ActiveRun;
 
 class RoundTracker {
@@ -23,10 +24,11 @@ class RoundTracker {
 	int targetScore;
 	int stormCount;
 	bool isLost = false;
+	IPlayerPrompt* ui;
 
    public:
-	explicit RoundTracker(const ActiveRun& runData);
-
+	explicit RoundTracker(const ActiveRun& runData, IPlayerPrompt* uiPrompt);
+	IPlayerPrompt* getUI() { return ui; }
 	void drawCard();
 	void drawCards(int amount);
 	bool promptDiscard();

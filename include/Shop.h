@@ -1,6 +1,5 @@
 #pragma once
-#include "PlayerInfo.h"
-
+class PlayerInfo;
 enum class BuyResult { SUCCESS, NO_GOLD, SOLD_OUT, INVALID };
 
 template <typename T>

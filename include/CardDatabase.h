@@ -21,5 +21,5 @@ class CardDatabase {
 	std::shared_ptr<Card> getTrueRandomCard();
 	// to be used sparingly
 	std::shared_ptr<Card> getRandomCard();
-	static int readInt(int l, int h);
+	
 };

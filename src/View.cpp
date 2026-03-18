@@ -248,6 +248,7 @@ void View::showCombat(GameState& state, ActiveRun& activeRun, RoundTracker& comb
 		activeRun.finishRoundSequence();
 		activeRun.getShop().generateRandomStock();
 		state = GameState::SHOP;
+		return;
 	}
 }
 
@@ -371,4 +372,28 @@ void View::showGameOver(bool playerWon, const ActiveRun& activeRun) {
 	}
 
 	std::cout << "  Rounds won: " << activeRun.getCurrentRound() << "\n\n";
+}
+
+int View::requestChoice(const std::string& promptText, int min, int max) {
+    std::cout << promptText;
+    return readInt(min, max); // Reusing your existing bulletproof readInt!
+}
+
+char View::requestManaColor() {
+    char choice = ' ';
+    while (true) {
+        std::cout << "\n  --- CHOOSE A MANA COLOR -[R][G][B]: ";
+        std::cin >> choice;
+        choice = std::toupper(choice);
+        if (choice == 'R' || choice == 'B' || choice == 'G') {
+            return choice;
+        }
+        std::cout << "  [!] Invalid choice. Please type R, B, or G.\n";
+        std::cin.clear();
+        std::cin.ignore(10000, '\n'); 
+    }
+}
+
+void View::showMessage(const std::string& message) {
+    std::cout << message << "\n";
 }
