@@ -1,5 +1,7 @@
 #include "GameManager.h"
 
+#include "RelicFactory.h"//DEBUG
+
 GameManager& GameManager::instance() {
 	static GameManager inst;
 	return inst;
@@ -13,6 +15,15 @@ void GameManager::run() {
 				view.showMainMenu(state, activeRun);
 				break;
 			case GameState::DRAFT:
+
+			// --- DEBUG HOOK: START WITH CODEX ---
+				if (activeRun.getPlayer().getRelicZone().getRelicZone().empty()) {
+					activeRun.getPlayer().getRelicZone().addRelic(
+						RelicDatabase::getInstance().getRelic("r_undescifrable_codex")
+					);
+                   }
+				// ------------------------------------
+
 				view.showDraft(state, activeRun);
 				round.emplace(activeRun, &view);
 				round->setupDeck(activeRun.getPlayer().getDeck(),
