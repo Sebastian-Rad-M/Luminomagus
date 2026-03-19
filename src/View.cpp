@@ -135,26 +135,10 @@ void View::showCombat(GameState& state, ActiveRun& activeRun, RoundTracker& comb
 	std::cout << "\n  --- YOUR HAND ---\n";
 	const auto& handCards = combatRound.getHand().getCards();
 
-	if (handCards.empty()) {
-		std::cout << "  (Hand is empty!)\n";
-		std::cout << "  Press 0 to concede the run: ";
-		int cardChoice = readInt(0, 0);	 // Force them to type 0
-		if (cardChoice == 0) {
-			playerWon = false;
-			state = GameState::GAME_OVER;
-			return;
-		}
-	} else {
-		for (size_t i = 0; i < handCards.size(); i++) {
-			std::cout << "  [" << (i + 1) << "] " << *handCards[i] << "\n";
-		}
-	}
+	if (handCards.empty()) std::cout << "  (Hand is empty!)\n";
+		else for (size_t i = 0; i < handCards.size(); i++) std::cout << "  [" << (i + 1) << "] " << *handCards[i] << "\n";
 
-	// --- 2. PLAYER ACTIONS ---
-	if (handCards.empty()) {
-		std::cout << "  [!] You have no cards to play!\n";
-	}
-
+	
 	std::cout << "  Which card do you want to play? (1-" << handCards.size() << ", 0 for Menu): ";
 	int cardChoice = readInt(0, handCards.size());
 
@@ -209,21 +193,20 @@ void View::showCombat(GameState& state, ActiveRun& activeRun, RoundTracker& comb
             }
             if (activatableIndices.empty()) {
                 std::cout << "  [!] You have no activatable relics!\n";
+            } else if (activatableIndices.size() == 1) { 
+                std::cout << "\n  --- ACTIVATE RELIC ---\n";
+                std::cout << "  --> Auto-activating " << permRelics[activatableIndices[0]]->getName() << "...\n";
+                permRelics[activatableIndices[0]]->activate(combatRound);
             } else {
                 std::cout << "\n  --- ACTIVATE RELIC ---\n";
-                for (size_t i = 0; i < activatableIndices.size(); i++) {
-                    std::cout << "  [" << (i + 1) << "] " << permRelics[activatableIndices[i]]->getName() << "\n";
-                }
+                for (size_t i = 0; i < activatableIndices.size(); i++) std::cout << "  [" << (i + 1) << "] " << permRelics[activatableIndices[i]]->getName() << "\n";
                 std::cout << "  Select relic to activate (0 to cancel): ";
                 int actChoice = readInt(0, activatableIndices.size());
-                if (actChoice > 0) {
-                    permRelics[activatableIndices[actChoice - 1]]->activate(combatRound);
-                }
+                if (actChoice > 0) permRelics[activatableIndices[actChoice - 1]]->activate(combatRound);
             }
             std::cout << "  Press ENTER to return...\n";
             std::cin.ignore(10000, '\n'); std::cin.get();
-            return;
-		} else if (menuChoice == 5) {
+         } else if (menuChoice == 5) {
 	        auto& permRelics = activeRun.getPlayer().getRelicZone().getRelicZone(); 
             
             if (permRelics.empty()) {

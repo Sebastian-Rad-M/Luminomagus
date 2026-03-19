@@ -106,7 +106,8 @@ RelicZone& RoundTracker::getRelicZone() {return relics;}
 void RoundTracker::printStatus() const {
 	std::cout << "  Score : " << currentScore << " / " << targetScore << "\n"
 			  << "  Storm : " << stormCount << "\n"
-			  << "  Mana  : " << manaPool << "\n";
+			  << "  Mana  : " << manaPool << "\n"
+              << "  Deck  : " << deck.getSize() << " cards remaining\n";
 }
 
 void RoundTracker::setupDeck(const CardZone& library, const RelicZone& startingRelics) {
