@@ -2,7 +2,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
-
+#include <functional>
 // Forward declarations
 class Card;
 class RoundTracker;
@@ -60,4 +60,33 @@ public:
     }
     
     void modifyDestination(CardZone*& destination, RoundTracker& state) override;
+};
+
+class CostReductionStatus : public IStatus {
+   public:
+	explicit CostReductionStatus(int c) : IStatus(c) {}
+	std::string getName() const override { return "Kineticism"; }
+	std::unique_ptr<IStatus> clone() const override {
+		return std::make_unique<CostReductionStatus>(charges);
+	}
+	void modifyCost(int& /*r*/, int& /*b*/, int& /*g*/, int& generic) override {
+		if (generic > 0) generic -= 1;
+	}
+};
+
+class LambdaStatus : public IStatus {
+private:
+    std::string name;
+    std::function<void(Card&, RoundTracker&)> playAction;
+public:
+    LambdaStatus(std::string n, int c, std::function<void(Card&, RoundTracker&)> action) 
+        : IStatus(c), name(std::move(n)), playAction(std::move(action)) {}
+    
+    std::string getName() const override { return name; }
+    std::unique_ptr<IStatus> clone() const override { 
+        return std::make_unique<LambdaStatus>(name, charges, playAction); 
+    }
+    void onCardPlayed(Card& card, RoundTracker& state) override {
+        if (playAction) playAction(card, state);
+    }
 };

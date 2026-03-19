@@ -21,6 +21,8 @@ class RelicZone {
 	void triggerOnCardPlayed(RoundTracker& state);
 	void triggerOnCardDrawn(RoundTracker& state);
 	void triggerOnDamageDealt(int& scoredPts, RoundTracker& state);
+	void triggerOnRoundStart(RoundTracker& state);
+	void triggerOnRoundEnd(RoundTracker& state);
 	
 	const std::vector<std::shared_ptr<IRelic>>& getRelicZone() const { return relics; }
 	};

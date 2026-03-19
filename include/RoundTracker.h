@@ -58,4 +58,5 @@ class RoundTracker {
 	void setStormCount(int nr);
 	bool hasLost() const { return isLost; }
 	void triggerLoss() { isLost = true; }
+	ActiveRun& getRun() { return const_cast<ActiveRun&>(currentRun); }
 };

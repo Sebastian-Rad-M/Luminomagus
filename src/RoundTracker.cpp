@@ -56,6 +56,7 @@ void RoundTracker::startNewRound() {
 	currentScore = 0;
 	stormCount = 0;
 	targetScore = currentRun.calcTargetScore();
+	relics.triggerOnRoundStart(*this);
 }
 
 void RoundTracker::addScore(int amount) {

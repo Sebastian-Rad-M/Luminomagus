@@ -37,3 +37,9 @@ void RelicZone::triggerOnDamageDealt(int& scoredPts, RoundTracker& state) {
 		relic->onDamageDealt(scoredPts, state);
 	}
 }
+void RelicZone::triggerOnRoundStart(RoundTracker& state) {
+	for (auto& relic : relics) relic->onRoundStart(state);
+}
+void RelicZone::triggerOnRoundEnd(RoundTracker& state) {
+	for (auto& relic : relics) relic->onRoundEnd(state);
+}

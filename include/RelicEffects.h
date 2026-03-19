@@ -70,3 +70,82 @@ class OnDrawRelic : public IRelic {
 	void onCardDrawn(RoundTracker& state) override;
 	std::shared_ptr<IRelic> clone() const override;
 };
+
+class OnRoundStartRelic : public IRelic {
+   private:
+	std::string name, description;
+	char rarity;
+	std::unique_ptr<IEffect> triggerEffect;
+
+   public:
+	OnRoundStartRelic(std::string n, std::string desc, char r, std::unique_ptr<IEffect> effect);
+	std::string getName() const override;
+	std::string getDescription() const override;
+	char getRarity() const override;
+	void onRoundStart(RoundTracker& state) override;
+	std::shared_ptr<IRelic> clone() const override;
+};
+
+class OnRoundEndRelic : public IRelic {
+   private:
+	std::string name, description;
+	char rarity;
+	std::unique_ptr<IEffect> triggerEffect;
+
+   public:
+	OnRoundEndRelic(std::string n, std::string desc, char r, std::unique_ptr<IEffect> effect);
+	std::string getName() const override;
+	std::string getDescription() const override;
+	char getRarity() const override;
+	void onRoundEnd(RoundTracker& state) override;
+	std::shared_ptr<IRelic> clone() const override;
+};
+
+class CustomManaRelic : public IRelic {
+   private:
+	std::string name, description;
+	char rarity;
+	std::function<void(int&, int&, int&, RoundTracker&)> manaAction;
+
+   public:
+	CustomManaRelic(std::string n, std::string desc, char r, std::function<void(int&, int&, int&, RoundTracker&)> action);
+	std::string getName() const override;
+	std::string getDescription() const override;
+	char getRarity() const override;
+	void onManaAdded(int& r, int& b, int& g, RoundTracker& state) override;
+	std::shared_ptr<IRelic> clone() const override;
+};
+
+class SympatheticLodestoneRelic : public IRelic {
+   private:
+	std::shared_ptr<IRelic> getTargetRelic(RoundTracker& state) const;
+
+   public:
+	std::string getName() const override;
+	std::string getDescription() const override;
+	char getRarity() const override;
+	void onRoundStart(RoundTracker& state) override;
+	void onRoundEnd(RoundTracker& state) override;
+	void onCardPlayed(RoundTracker& state) override;
+	void onCardDrawn(RoundTracker& state) override;
+	void onManaAdded(int& r, int& b, int& g, RoundTracker& state) override;
+	void onDamageDealt(int& damage, RoundTracker& state) override;	
+	std::shared_ptr<IRelic> clone() const override;
+}; //antipattern? yes
+//can i figure out any other way? no
+
+class ActiveRelic : public IRelic {
+   private:
+	std::string name, description;
+	char rarity;
+	std::function<void(RoundTracker&)> activeAction;
+
+   public:
+	ActiveRelic(std::string n, std::string desc, char r, std::function<void(RoundTracker&)> action);
+	std::string getName() const override;
+	std::string getDescription() const override;
+	char getRarity() const override;
+	bool isActivatable() const override { return true; }
+	void activate(RoundTracker& state) override;
+	std::shared_ptr<IRelic> clone() const override;
+};

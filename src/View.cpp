@@ -164,11 +164,12 @@ void View::showCombat(GameState& state, ActiveRun& activeRun, RoundTracker& comb
 		std::cout << "  [1] Back to Combat\n"
 				  << "  [2] View Graveyard\n"
 				  << "  [3] View Exile\n"
-				  << "  [4] Sell a Relic\n"
+				  << "  [4] Activate Relic\n"
+				  << "  [5] Sell a Relic\n"
 				  << "  [0] Concede Run\n"
 				  << "  Choice: ";
 
-		int menuChoice = readInt(0, 4);
+		int menuChoice = readInt(0, 5);
 
 		if (menuChoice == 1) {
 			return;
@@ -201,6 +202,28 @@ void View::showCombat(GameState& state, ActiveRun& activeRun, RoundTracker& comb
 			std::cin.get();
 			return;
 		} else if (menuChoice == 4) {
+            auto& permRelics = combatRound.getRelicZone().getRelicZone(); 
+            std::vector<int> activatableIndices;
+            for (size_t i = 0; i < permRelics.size(); i++) {
+                if (permRelics[i]->isActivatable()) activatableIndices.push_back(i);
+            }
+            if (activatableIndices.empty()) {
+                std::cout << "  [!] You have no activatable relics!\n";
+            } else {
+                std::cout << "\n  --- ACTIVATE RELIC ---\n";
+                for (size_t i = 0; i < activatableIndices.size(); i++) {
+                    std::cout << "  [" << (i + 1) << "] " << permRelics[activatableIndices[i]]->getName() << "\n";
+                }
+                std::cout << "  Select relic to activate (0 to cancel): ";
+                int actChoice = readInt(0, activatableIndices.size());
+                if (actChoice > 0) {
+                    permRelics[activatableIndices[actChoice - 1]]->activate(combatRound);
+                }
+            }
+            std::cout << "  Press ENTER to return...\n";
+            std::cin.ignore(10000, '\n'); std::cin.get();
+            return;
+		} else if (menuChoice == 5) {
 	        auto& permRelics = activeRun.getPlayer().getRelicZone().getRelicZone(); 
             
             if (permRelics.empty()) {
@@ -239,6 +262,7 @@ void View::showCombat(GameState& state, ActiveRun& activeRun, RoundTracker& comb
 		return;
 	}
 	if (combatRound.isRoundWon()) {
+		combatRound.getRelicZone().triggerOnRoundEnd(combatRound);
 		std::cout << "\n  *** BLIND DEFEATED! ***\n";
 		std::cout << "  Score : " << combatRound.getCurrentScore() << " / "
 				  << combatRound.getTargetScore() << "\n";

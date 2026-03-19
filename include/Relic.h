@@ -18,4 +18,8 @@ class IRelic {
 	virtual void onCardDrawn(RoundTracker& /*state*/) {}
 	virtual void onManaAdded(int& /*r*/, int& /*b*/, int& /*g*/, RoundTracker& /*state*/) {}
 	virtual void onDamageDealt(int& /*damage*/, RoundTracker& /*state*/) {}
+	virtual void onRoundStart(RoundTracker& /*state*/) {}
+	virtual void onRoundEnd(RoundTracker& /*state*/) {}
+	virtual bool isActivatable() const { return false; }
+	virtual void activate(RoundTracker& /*state*/) {}
 };
