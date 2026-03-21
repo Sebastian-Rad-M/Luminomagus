@@ -4,6 +4,14 @@
 #include <stdexcept>
 
 std::unique_ptr<IStatus> BossFactory::createBoss(BossType boss) {
+    auto generatedBoss = generateBoss(boss);
+    if (generatedBoss) {
+        generatedBoss->setIsBoss(true); 
+    }
+    return generatedBoss;
+}
+
+std::unique_ptr<IStatus> BossFactory::generateBoss(BossType boss) {
 	switch (boss) {
         case BossType::ABSOLUTE_ZERO: {
 			auto status = std::make_unique<LambdaStatus>("Absolute Zero", 1);

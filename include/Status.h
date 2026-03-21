@@ -11,6 +11,7 @@ class CardZone;
 class IStatus {
 protected:
     int charges;
+    bool m_isBoss = false;
 
 public:
     IStatus(int startingCharges) : charges(startingCharges) {}
@@ -18,7 +19,10 @@ public:
     
     virtual std::string getName() const = 0;
     bool isExpired() const { return charges <= 0; }
-    
+    bool isBoss() const { return m_isBoss; }
+    void setIsBoss(bool boss) { m_isBoss = boss; }
+
+
     virtual void modifyCost(int& /*r*/, int& /*b*/, int& /*g*/, int& /*generic*/, RoundTracker& /*state*/) {};
     virtual void onCardPlayed(Card& /*card*/, RoundTracker& /*state*/) {}
     virtual void modifyDestination(CardZone*& /*destination*/, RoundTracker& /*state*/) {}   

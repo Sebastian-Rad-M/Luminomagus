@@ -34,7 +34,7 @@ class RoundTracker {
 	bool promptDiscard();
 	void addStatus(std::unique_ptr<IStatus> status);
 	bool isRoundWon() const;
-
+	std::string getActiveBossName() const;
 	void startNewRound();
 
 	void addScore(int amount);

@@ -170,3 +170,12 @@ int RoundTracker::requestHandTarget() {
 }
 void RoundTracker::setStormCount(int nr){stormCount=nr;}
 
+std::string RoundTracker::getActiveBossName() const {
+    // Look through all active statuses for the one flagged as the boss
+    for (const auto& status : activeStatuses) {
+        if (status->isBoss()) {
+            return status->getName();
+        }
+    }
+    return ""; // Return empty string if no boss is active
+}

@@ -18,6 +18,9 @@ enum class BossType {
     LEVIATHAN
 };
 class BossFactory {
+    private:
+    static std::unique_ptr<IStatus> generateBoss(BossType boss);
+
    public:
 	BossFactory() = delete;
 	static std::unique_ptr<IStatus> createBoss(BossType boss);
