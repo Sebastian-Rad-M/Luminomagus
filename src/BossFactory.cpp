@@ -86,13 +86,13 @@ std::unique_ptr<IStatus> BossFactory::generateBoss(BossType boss) {
 			auto lastCast = std::make_shared<LastCast>();
 			auto status = std::make_unique<LambdaStatus>("Broken Wavelength", 1);
 			
-			status->setPlayAction([lastCast](Card& card, RoundTracker&) {
+			status->setPlayAction([lastCast](const Card& card, RoundTracker&) {
 				lastCast->r = card.getRedCost() > 0;
 				lastCast->b = card.getBlueCost() > 0;
 				lastCast->g = card.getGreenCost() > 0;
 				lastCast->empty = false;
 			});
-			status->setCanPlayAction([lastCast](Card& card, RoundTracker&) -> bool {
+			status->setCanPlayAction([lastCast](const Card& card, RoundTracker&) -> bool {
 				if (lastCast->empty) return true;
 				if (lastCast->r && card.getRedCost() > 0) return false;
 				if (lastCast->b && card.getBlueCost() > 0) return false;
@@ -104,7 +104,7 @@ std::unique_ptr<IStatus> BossFactory::generateBoss(BossType boss) {
 
 		case BossType::CROOKED_SCALE: {
 			auto status = std::make_unique<LambdaStatus>("Crooked Scale", 1);
-			status->setCanPlayAction([](Card& card, RoundTracker&) -> bool {
+			status->setCanPlayAction([](const Card& card, RoundTracker&) -> bool {
 				int totalCost = card.getGenericCost() + card.getRedCost() + card.getBlueCost() + card.getGreenCost(); 
 				if (totalCost > 0 && totalCost % 2 == 0) return false;
 				return true;
@@ -168,6 +168,8 @@ std::unique_ptr<IStatus> BossFactory::getRandomBoss(char rarity) {
 	} else {
 		throw std::invalid_argument("Unknown Boss Rarity");
 	}
+	
+	if (pool.empty()) return nullptr;
 
 	std::uniform_int_distribution<size_t> dist(0, pool.size() - 1);
 	return createBoss(pool[dist(RNG::engine())]);

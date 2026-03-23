@@ -6,8 +6,8 @@ class ActiveRun {
    private:
 	PlayerInfo player;
 	Shop currentShop; //TODO:move shop from here
-	int currentRound;
-	int roundsWon;
+	int currentRound=0;
+	int roundsWon=0;
 
    public:
 	void finishRoundSequence();
