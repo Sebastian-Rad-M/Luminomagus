@@ -67,6 +67,25 @@ void CombatListener::refreshUI() {
     if (auto el = combatDoc->GetElementById("count-deck")) {
         el->SetInnerRML(std::to_string(round.getDeck().getSize()));
     }
+// --- Mana / X prompt / YesNo overlays ---
+    if (auto overlay = combatDoc->GetElementById("inline-mana-prompt")) {
+        overlay->SetProperty("display", (round.getPendingManaChoices() > 0 && !round.isXPromptActive() && !round.isYesNoPromptActive()) ? "block" : "none");
+    }
+    
+    // THIS is the block that makes the Codex prompt appear!
+    if (auto overlay = combatDoc->GetElementById("inline-x-prompt")) {
+        overlay->SetProperty("display", (round.isXPromptActive() && !round.isYesNoPromptActive()) ? "block" : "none");
+        if (round.isXPromptActive()) {
+            if (auto xVal = combatDoc->GetElementById("x-value-display")) xVal->SetInnerRML(std::to_string(pendingXValue));
+        }
+    }
+    
+    if (auto overlay = combatDoc->GetElementById("inline-yesno-prompt")) {
+        overlay->SetProperty("display", round.isYesNoPromptActive() ? "block" : "none");
+        if (round.isYesNoPromptActive()) {
+            if (auto msg = combatDoc->GetElementById("yesno-message")) msg->SetInnerRML(round.getYesNoMessage());
+        }
+    }
 
     // Populate the Boss Info directly into the right-side panel
     if (auto el = combatDoc->GetElementById("boss-name-display")) {

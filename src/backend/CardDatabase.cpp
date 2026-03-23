@@ -198,7 +198,7 @@ void CardDatabase::loadAllCards() {
       std::make_unique<LambdaEffect>([](RoundTracker &state) {
         auto &hand = state.getHand();
         auto &grave = state.getGraveyard();
-        int maxX = hand.getCards().size();
+        //int maxX = hand.getCards().size();
         int x = 0;
         for (int i = 0; i < x; i++) {
           auto &handCards = hand.getCards();
@@ -274,7 +274,7 @@ void CardDatabase::loadAllCards() {
 
     struct DoomsdayLoop {
       static void step(RoundTracker &s, std::vector<std::shared_ptr<Card>> purg,std::vector<std::shared_ptr<Card>> chosen, int needed) {
-        if (chosen.size() >= needed || purg.empty()) {
+       if (chosen.size() >= static_cast<std::size_t>(needed) || purg.empty()) {
           for (auto &leftover : purg)
             s.getExile().addCard(leftover);
           for (auto &c : chosen)

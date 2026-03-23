@@ -21,10 +21,8 @@ void RelicDatabase::loadAllRelics() {
     registry["r_electrical_kineticism"] = std::make_shared<OnRoundStartRelic>("Electrical kineticism", "Spells cost 1 generic less", 'C',std::make_unique<LambdaEffect>([](RoundTracker& state) {state.addStatus(std::make_unique<CostReductionStatus>(999));}));
     registry["r_sympathetic_lodestone"] = std::make_shared<SympatheticLodestoneRelic>();
     //TODO:code this one
-    registry["r_altar_of_kindling"] = std::make_shared<ActiveRelic>("Altar of Kindling", "Discard a card: add 1 mana of its color", 'U',[](RoundTracker& state)
-     {auto& hand = state.getHand();
-        if (hand.getCards().empty()) return;int choice = 0;}
-    );
+    //registry["r_altar_of_kindling"] = std::make_shared<ActiveRelic>("Altar of Kindling", "Discard a card: add 1 mana of its color", 'U',[](RoundTracker& state)
+     //{return;});
     registry["r_locket_of_yesterdays"] = std::make_shared<OnRoundStartRelic>("Locket of yesterdays", "Copy spells for each with the same name in GY", 'C',std::make_unique<LambdaEffect>([](RoundTracker& state) {auto locketStatus = std::make_unique<LambdaStatus>("Locket", 999);locketStatus->setPlayAction([](Card& c, RoundTracker& s) {int copies = 0;for (const auto& gyCard : s.getGraveyard().getCards()) if (gyCard->getName() == c.getName()) copies++;for (int i = 0; i < copies; i++) {c.play(s); }});state.addStatus(std::move(locketStatus));}));
     registry["r_undescifrable_codex"] = std::make_shared<ActiveRelic>("Undescifrable codex", "Pay X, cast a random spell with X cost", 'L',[](RoundTracker& state) {
         state.requestXPrompt([](int x, RoundTracker& s) {
