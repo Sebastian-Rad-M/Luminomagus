@@ -24,4 +24,9 @@ class Shop {
 	BuyResult buyCard(int index, PlayerInfo& player);
 
 	BuyResult buyRelic(int index, PlayerInfo& player);
+
+	friend std::ostream& operator<<(std::ostream& os, const Shop& shop) {
+        os << "Carduri in stoc: " << shop.cardStock.size() << " | Relicve in stoc: " << shop.relicStock.size();
+        return os;
+    }
 };

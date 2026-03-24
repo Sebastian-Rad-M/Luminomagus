@@ -47,3 +47,11 @@ PlayerInfo& PlayerInfo::operator=(const PlayerInfo& other) {
 	}
 	return *this;
 }
+
+std::ostream& operator<<(std::ostream& os, const IRelic& relic) {
+    os << "Relic [" << relic.getName() << "]\n"
+       << " - Rarity: " << relic.getRarity() << "\n"
+       << " - Status: " << (relic.isDisabled() ? "Disabled" : "Active") << "\n"
+       << " - Description: " << relic.getDescription();
+    return os;
+}

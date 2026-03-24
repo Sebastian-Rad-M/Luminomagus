@@ -27,4 +27,5 @@ class IRelic {
 	virtual void onRoundEnd(RoundTracker& /*state*/) {}
 	virtual bool isActivatable() const { return false; }
 	virtual void activate(RoundTracker& /*state*/) {}
+	
 };

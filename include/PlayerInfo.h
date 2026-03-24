@@ -24,4 +24,5 @@ class PlayerInfo {
 	// copy =opp
 	PlayerInfo(const PlayerInfo& other);
 	PlayerInfo& operator=(const PlayerInfo& other);
+	friend std::ostream& operator<<(std::ostream& os, const PlayerInfo& player);
 };
