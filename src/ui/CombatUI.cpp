@@ -15,6 +15,7 @@ void CombatListener::startCombat(Rml::ElementDocument* doc) {
     activePileView = PileView::NONE;
     GameManager::instance().getRound().value().setPromptMessage("");
     if (cardTemplateRML.empty()) cardTemplateRML = UIHelpers::LoadFileToString("assets/card.rml");
+      if (relicTemplateRML.empty()) relicTemplateRML = UIHelpers::LoadFileToString("assets/relic.rml");
     refreshUI();
     //light
     if (auto el = combatDoc->GetElementById("mana-red"))   el->AddEventListener(Rml::EventId::Click, this);
@@ -237,7 +238,7 @@ void CombatListener::refreshUI() {
         const auto& cards = round.getExile().getCards();
         if (!cards.empty()) {
             std::string cardVisuals = UIHelpers::GenerateCardRML(cardTemplateRML, *cards.back());
-            if (relicTemplateRML.empty()) relicTemplateRML = UIHelpers::LoadFileToString("assets/relic.rml");
+          
             voidContainer->SetInnerRML("<div class=\"small-card-wrapper\">" + cardVisuals + "</div>");
             if (auto title = combatDoc->GetElementById("void-title")) {
                 title->SetProperty("display", "none");

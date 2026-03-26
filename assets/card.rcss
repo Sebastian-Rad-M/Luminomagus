@@ -53,12 +53,12 @@
 .card {
     display: block;
     position: relative;
-    width: 200px;
-    height: 280px;
+    width: 330px;
+    height: 460px;
     border-width: 2px;
     border-radius: 2px; /* Jagged, barely rounded */
     box-sizing: border-box;
-    padding: 6px;
+    padding: 8px;
     background-color: #050505; /* Almost pure void */
     transition: transform 0.1s, border-color 0.2s;
 }
@@ -94,7 +94,7 @@
 
 .card-name {
     display: inline-block;
-    font-size: 16px;
+    font-size: 25px;
     font-weight: bold;
     color: #b3aca2; /* Ashen bone text */
     width: 65%;
@@ -117,12 +117,10 @@
 .card-art-window {
     display: block;
     width: 100%;
-    height: 110px; /* Smaller window to leave room for text */
+    height: 230px; /* Smaller window to leave room for text */
     margin-top: 5px;
     background-color: #000000; /* Pure black */
     border: 1px #1a1a1a;
-    /* Later, your card art will go here, but keep the images dark, 
-       like viewing something terrifying through a keyhole */
 }
 
 /* --- THE INCANTATION (Card Text) --- */
@@ -131,7 +129,7 @@
     width: 100%;
     height: auto;
     margin-top: 10px;
-    font-size: 13px;
+    font-size: 18px;
     color: #8c857d; /* Dying gray text */
     text-align: center;
     line-height: 1.2;

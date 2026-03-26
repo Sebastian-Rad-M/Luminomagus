@@ -44,14 +44,10 @@ button:active {
     background-color: #A3A3A3;
     color: black;
 }
-
-#draft-container {
-    display: block;
-    width: 80%;
-    margin: 5% auto;
-    text-align: center;
+.card-wrapper {
+    display: inline-block;
+    margin: 10px; /* Adds space between cards */
 }
-
 #card-pool {
     display: block;
     margin-top: 20px;
@@ -72,22 +68,3 @@ button:active {
 .mana-btn.red { background-color: #737373; }
 .mana-btn.blue { background-color: #737373; }
 .mana-btn.green { background-color: #737373; }
-.card-wrapper {
-    display: inline-block;
-    margin: 10px; /* Adds space between cards */
-}
-#shop-container { width: 90%; margin: 2% auto; text-align: center; }
-.shop-columns { display: block; margin: 20dp 0; }
-.column { display: inline-block; width: 45%; vertical-align: top; }
-
-.shop-item {
-    display: block; width: 90%; margin: 5dp auto; padding: 10px;
-    background-color: #222; border: 1dp #444; text-align: left;
-}
-.shop-item.sold { color: #666; background-color: #111; border-color: #222; }
-
-.sell-btn {
-    display: inline-block; padding: 8px; margin: 5px;
-    background-color: #422; border: 1dp #622; font-size: 14px;
-}
-#btn-leave-shop { margin-top: 20px; background-color: #444; }

@@ -1,31 +1,155 @@
 <rml>
 <head>
-    <title>The Merchant</title>
+    <title>The Mind Palace</title>
     <link type="text/rcss" href="style.rcss"/>
     <link type="text/rcss" href="card.rcss"/>
+    <link type="text/rcss" href="combat.rcss"/>
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: rgba(0, 0, 0, 0.85); /* Deep void overlay */
+            font-family: Arial;
+        }
+
+        #mind-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            padding-top: 40dp;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 45dp;
+            color: #b3aca2;
+            letter-spacing: 8dp;
+            margin-bottom: 5dp;
+            text-transform: uppercase;
+            font-effect: shadow(2dp 2dp #000000);
+        }
+
+        #player-gold {
+            font-size: 24dp;
+            color: #aaaaaa; /* Cold, grounded metal */
+            margin-bottom: 50dp;
+        }
+
+        .stock-section {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 40dp;
+            margin-bottom: 40dp;
+            width: 90%;
+        }
+
+        /* Container for a memory + its cost */
+        .memory-fragment {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .memory-fragment:hover {
+            transform: scale(1.05) translateY(-5dp);
+        }
+
+        .price-tag {
+            color: #aaaaaa;
+            font-size: 20dp;
+            margin-top: 15dp;
+            font-weight: bold;
+        }
+
+        .sold-out {
+            width: 260px; /* Matches the new larger card size */
+            height: 364px;
+            border: 1px dashed #333333;
+            color: #333333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20dp;
+            text-transform: uppercase;
+            background-color: transparent;
+        }
+
+        /* The Forget Section at the bottom */
+        #forget-section {
+            margin-top: auto;
+            margin-bottom: 30dp;
+            text-align: center;
+            border-top: 1px #333333;
+            padding-top: 20dp;
+            width: 80%;
+        }
+
+        #forget-title {
+            color: #5a544f;
+            font-size: 18dp;
+            margin-bottom: 15dp;
+            text-transform: uppercase;
+            letter-spacing: 2dp;
+        }
+
+        #player-relics-sell {
+            display: flex;
+            justify-content: center;
+            gap: 15dp;
+        }
+
+        /* Memories you can let go of */
+        .forget-btn {
+            background-color: #050505;
+            color: #8c857d;
+            border: 1px #333333;
+            padding: 10dp 15dp;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .forget-btn:hover {
+            background-color: #222222;
+            color: #ffffff;
+            border-color: #ffffff;
+        }
+
+        #btn-leave-shop {
+            margin-bottom: 40dp;
+            font-size: 24dp;
+            color: #5a544f;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        #btn-leave-shop:hover {
+            color: #ffffff;
+            font-effect: shadow(0dp 0dp 10dp #ffffff);
+        }
+    </style>
 </head>
-<body class="window">
-    <div id="shop-container">
-        <h1>THE MERCHANT</h1>
-        <h2 id="player-gold">Gold: 0G</h2>
+<body id="shop_body">
+    <div id="mind-container">
+        <h1>THE MIND PALACE</h1>
+        <div id="player-gold">Gold: 0G</div>
 
-        <div class="shop-columns">
-            <div class="column">
-                <h3>Cards</h3>
-                <div id="card-stock"></div>
-            </div>
-            <div class="column">
-                <h3>Relics</h3>
-                <div id="relic-stock"></div>
-            </div>
-        </div>
+        <div class="stock-section" id="card-stock"></div>
+        
+        <div class="stock-section" id="relic-stock"></div>
 
-        <div id="sell-section">
-            <h3>Your Relics (Click to Sell)</h3>
+        <div id="forget-section">
+            <div id="forget-title">Let go of burdens to regain focus</div>
             <div id="player-relics-sell"></div>
         </div>
 
-        <button id="btn-leave-shop">Leave Shop</button>
+        <div id="btn-leave-shop">Open Eyes</div>
     </div>
 </body>
 </rml>
