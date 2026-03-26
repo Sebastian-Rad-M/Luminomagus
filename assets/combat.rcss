@@ -315,3 +315,87 @@
 .menu-restart:hover { background-color: #333366; border-color: #6666cc; }
 .menu-quit { background-color: #2a1111; border: 2dp #884444; color: #ff9999; margin-bottom: 0; }
 .menu-quit:hover { background-color: #441111; border-color: #cc6666; }
+
+
+/* --- RELICS (Echoes of the Past) --- */
+.relic-wrapper {
+    display: inline-block;
+    position: relative;
+    margin: 5dp;
+}
+
+.relic-btn {
+    background-color: #080808;
+    color: #8c857d;
+    border: 1px #333333;
+    padding: 8dp 12dp;
+    font-size: 14dp;
+    border-radius: 0; /* Jagged, no soft edges */
+    cursor: pointer;
+    transition: color 0.1s, border-color 0.1s;
+}
+
+/* If a relic can be clicked/activated, give it a faint, desperate glow */
+.relic-activatable {
+    border: 1px #5a544f;
+    color: #b3aca2;
+    font-effect: shadow(0dp 0dp 3dp #ffffff);
+}
+
+.relic-btn:hover {
+    border-color: #ffffff;
+    color: #ffffff;
+}
+
+/* --- RELIC TOOLTIP --- */
+.relic-tooltip {
+    display: none; /* Hidden by default */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 200dp;
+    background-color: rgba(5, 5, 5, 0.95);
+    border: 1px #555555;
+    padding: 10dp;
+    z-index: 50;
+    margin-top: 5dp;
+}
+
+.relic-wrapper:hover .relic-tooltip {
+    display: block; /* Show when hovering over the wrapper */
+}
+
+.relic-tooltip-name {
+    display: block;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 14dp;
+    margin-bottom: 5dp;
+    text-transform: uppercase;
+}
+
+.relic-tooltip-desc {
+    display: block;
+    color: #8c857d;
+    font-size: 12dp;
+    line-height: 1.3;
+    margin-bottom: 10dp;
+}
+
+/* The Shatter Button */
+.tooltip-shatter {
+    display: block;
+    width: 100%;
+    background-color: #1a0505; /* Faint bloody red/black */
+    color: #ff4444;
+    border: 1px #ff4444;
+    padding: 5dp;
+    font-size: 12dp;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.tooltip-shatter:hover {
+    background-color: #ff4444;
+    color: #000000;
+}

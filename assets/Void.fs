@@ -46,8 +46,8 @@ void main() {
 
     // Animate the coordinates to make the fog slowly drift and warp
     // Multiply u_time by small numbers to make it agonizingly slow
-    vec2 q = vec2(0.1);
-    q.x = fbm(st + 0.01 * u_time);
+    vec2 q = vec2(0.);
+    q.x = fbm(st + 0.00 * u_time);
     q.y = fbm(st + vec2(1.0));
 
     vec2 r = vec2(0.);
@@ -59,9 +59,9 @@ void main() {
     // --- THE GRIMDARK PALETTE ---
     // Mix between absolute crushing black and a very dull, dying ash color
     vec3 colorBase = vec3(0.01, 0.01, 0.01); // The Void
-    vec3 colorAsh = vec3(0.8, 0.7, 0.6);  // Dying dust
-    
-    vec3 color = mix(colorBase, colorAsh, clamp((f * f) * 3.0, 0.0, 1.0));
+    vec3 colorAsh = vec3(0.08, 0.07, 0.1);  // Dying dust
+    vec3 colorGray = vec3(0.120, 0.116, 0.116);
+    vec3 color = mix(colorBase, colorGray, clamp((f * f) * 3.0, 0.0, 1.0));
 
     // Optional: Add a heavy vignette to fade the edges into total pitch black
     float vignette = 1.0 - smoothstep(0.4, 1.2, length(st - vec2(0.5 * (u_resolution.x/u_resolution.y), 0.5)));

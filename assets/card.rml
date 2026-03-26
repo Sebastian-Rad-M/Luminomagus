@@ -6,7 +6,10 @@
         </div>
     </div>
 
-    <div class="card-art-window">hello</div>
+    <div class="card-art-window"></div>
 
-    <div class="card-tooltip">[TEXT]</div>
-</div>
+    <div class="card-text">
+        [TEXT]
+    </div>
+    
+    </div>

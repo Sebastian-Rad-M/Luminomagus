@@ -50,13 +50,25 @@ void CombatListener::refreshUI() {
     auto& activeRun = GameManager::instance().getActiveRun();
     
     // Top prompts
-    if (auto el = combatDoc->GetElementById("prompt-line-1")) el->SetInnerRML("Round " + std::to_string(activeRun.getCurrentRound()));
+    if (auto el = combatDoc->GetElementById("prompt-line-1")) el->SetInnerRML("Cycle " + std::to_string(activeRun.getCurrentRound()));
     
     // Set the prompt message (this fixes your old bug where Score was overwritten by prompts)
-    if (auto line2 = combatDoc->GetElementById("prompt-line-2")) {
-        line2->SetInnerRML(round.getPromptMessage());
+    if (auto el = combatDoc->GetElementById("boss-name-display")) {
+        std::string bossName = round.getActiveBossName();
+        if (bossName.empty()) {
+            el->SetInnerRML("THE VOID SLUMBERS");
+        } else {
+            el->SetInnerRML(bossName);
+        }
     }
-
+    if (auto el = combatDoc->GetElementById("boss-desc-display")) {
+        std::string bossDesc = round.getActiveBossDescription();
+        if (bossDesc.empty()) {
+            el->SetInnerRML("Only the creeping dark remains. Hold it back.");
+        } else {
+            el->SetInnerRML(bossDesc);
+        }
+    }
     // Populate the new Status Panel!
     if (auto el = combatDoc->GetElementById("count-echo")) {
         el->SetInnerRML(std::to_string(round.getStormCount()));
@@ -121,7 +133,7 @@ void CombatListener::refreshUI() {
                     title->SetInnerRML(round.getSelectionMessage());
                     cards = &round.getSelectionChoices();
                 } else if (activePileView == PileView::GRAVEYARD) {
-                    title->SetInnerRML("GRAVEYARD");
+                    title->SetInnerRML("DISCARD");
                     cards = &round.getGraveyard().getCards();
                 } else {
                     title->SetInnerRML("VOID");
@@ -175,21 +187,26 @@ void CombatListener::refreshUI() {
     // ── Relics ────────────────────────────────────────────────────────────────
     if (auto relicContainer = combatDoc->GetElementById("relic-container")) {
         const auto& relics = activeRun.getPlayer().getRelicZone().getRelicZone();
-        std::string relicHtml;
+        std::string relicHtml = "";
+        
         for (size_t i = 0; i < relics.size(); i++) {
-            std::string classes = "relic-btn";
-            if (relics[i]->isActivatable()) classes += " relic-activatable";
-            relicHtml += "<div class=\"relic-wrapper\" id=\"relic-wrapper-" + std::to_string(i) + "\">"
-                       + "<button class=\"" + classes + "\" id=\"relic-" + std::to_string(i) + "\">"
-                       + relics[i]->getName() + "</button>"
-                       + "<div class=\"relic-tooltip\">"
-                       + "<span class=\"relic-tooltip-name\">" + relics[i]->getName() + "</span>"
-                       + "<span class=\"relic-tooltip-desc\">" + relics[i]->getDescription() + "</span>"
-                       + "<button class=\"tooltip-sell\" id=\"sell-relic-" + std::to_string(i) + "\">Sell</button>"
-                       + "</div></div>";
+            std::string singleRelic = relicTemplateRML;
+            
+            // Replace our template tags with actual data
+            singleRelic = UIHelpers::ReplaceAll(singleRelic, "[INDEX]", std::to_string(i));
+            singleRelic = UIHelpers::ReplaceAll(singleRelic, "[NAME]", relics[i]->getName());
+            singleRelic = UIHelpers::ReplaceAll(singleRelic, "[DESC]", relics[i]->getDescription());
+            
+            // Handle the activatable visual state
+            std::string activeClass = relics[i]->isActivatable() ? "relic-activatable" : "";
+            singleRelic = UIHelpers::ReplaceAll(singleRelic, "[ACTIVATABLE_CLASS]", activeClass);
+            
+            relicHtml += singleRelic;
         }
+        
         relicContainer->SetInnerRML(relicHtml);
 
+        // Attach event listeners (This remains exactly the same!)
         for (size_t i = 0; i < relics.size(); i++) {
             if (auto btn = combatDoc->GetElementById("relic-" + std::to_string(i))) {
                 btn->AddEventListener(Rml::EventId::Click, this);
@@ -199,7 +216,6 @@ void CombatListener::refreshUI() {
             }
         }
     }
-
     // ── Graveyard and Void ────────────────────────────────────────────────────
     if (auto graveyardContainer = combatDoc->GetElementById("graveyard-container")) {
         const auto& cards = round.getGraveyard().getCards();
@@ -221,6 +237,7 @@ void CombatListener::refreshUI() {
         const auto& cards = round.getExile().getCards();
         if (!cards.empty()) {
             std::string cardVisuals = UIHelpers::GenerateCardRML(cardTemplateRML, *cards.back());
+            if (relicTemplateRML.empty()) relicTemplateRML = UIHelpers::LoadFileToString("assets/relic.rml");
             voidContainer->SetInnerRML("<div class=\"small-card-wrapper\">" + cardVisuals + "</div>");
             if (auto title = combatDoc->GetElementById("void-title")) {
                 title->SetProperty("display", "none");

@@ -8,10 +8,10 @@
             /* The body covers the whole screen. We make it completely dark. */
             width: 100%;
             height: 100%;
-            background-color: #030303;
+            background-color: transparent;
             margin: 0;
             padding: 0;
-            font-family: Arial; /* CHANGE THIS once you get a new font! */
+            font-family: Cinzel Decorative; /* CHANGE THIS once you get a new font! */
         }
 
         #title-container {

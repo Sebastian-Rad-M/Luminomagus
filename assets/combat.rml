@@ -93,7 +93,7 @@
                     <p id="boss-desc-display"></p>
                     <div id="pile-view-bg" style="display: none;">
                         <div id="pile-view-header">
-                            <h3 id="pile-view-title">GRAVEYARD</h3>
+                            <h3 id="pile-view-title">DISCARD</h3>
                           
                         </div> 
                         <div id="pile-view-content">

@@ -13,6 +13,7 @@ private:
     bool menuOpen = false;
     int pendingXValue = 0;
     PileView activePileView = PileView::NONE;
+    std::string relicTemplateRML;
 
 public:
     void startCombat(Rml::ElementDocument* doc);
@@ -23,4 +24,5 @@ private:
     void checkWinCondition();
     void checkLossCondition();
     void toggleMenu();
+
 };

@@ -1,16 +1,63 @@
 <rml>
 <head>
-    <title>Draft Phase</title>
     <link type="text/rcss" href="style.rcss"/>
     <link type="text/rcss" href="card.rcss"/>
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial; /* Update to your chosen font later */
+        }
+
+        #scavenge-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            /* A heavy dark overlay so the cards pop against the Void background */
+            background-color: rgba(0, 0, 0, 0.75); 
+        }
+
+        #draft-title {
+            font-size: 36dp;
+            color: #b3aca2; /* Ashen gray */
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-bottom: 40dp;
+            font-effect: shadow(2dp 2dp #000000);
+            text-align: center;
+            letter-spacing: 4dp;
+        }
+
+        #card-pool {
+            display: flex;
+            flex-wrap: wrap; /* This makes the 10 cards wrap into a grid! */
+            justify-content: center;
+            align-content: center;
+            width: 90%; /* Keep them from touching the edges */
+            gap: 50dp; /* Spacing between cards */
+        }
+
+        .draft-choice {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        /* Hovering over a card pulls it slightly toward the player */
+        .draft-choice:hover {
+            transform: scale(1.1) translateY(-10dp);
+        }
+    </style>
 </head>
-<body class="window">
-    <div id="draft-container">
-        <h1 id="draft-title">DRAFT PHASE</h1>
-        <p>Choose 5 cards from this pool to form your starting deck.</p>
+<body id="draft_body">
+    <div id="scavenge-screen">
+        <div id="draft-title">SCAVENGE THE ARCHIVES // Fragment 1 of 5</div>
         
-        <div id="card-pool">
-        </div>
+        <div id="card-pool"></div>
     </div>
 </body>
 </rml>
