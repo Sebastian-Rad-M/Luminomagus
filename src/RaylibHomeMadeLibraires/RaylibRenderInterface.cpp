@@ -4,27 +4,27 @@
 
 void RaylibRenderInterface::RenderGeometry(Rml::Vertex* vertices, int num_vertices, int* indices, int num_indices, 
                                            Rml::TextureHandle texture, const Rml::Vector2f& translation) {
-    (void)num_vertices;
+   (void)num_vertices;
     rlPushMatrix();
     rlTranslatef(translation.x, translation.y, 0.0f);
 
+    // ADD THIS: Apply the RmlUi transform matrix if one exists for this element
+    if (has_transform) {
+        rlMultMatrixf(transform_matrix.data());
+    }
+
     // 1. Bind the texture (if RmlUi gave us one)
     Texture2D* tex = (Texture2D*)texture;
-    //rlSetTexture(texture);
     if (tex != nullptr) {
         rlSetTexture(tex->id);
-
     } else {
         rlSetTexture(rlGetTextureIdDefault()); // Draw solid colors
     }
-
-    // 2. Draw the triangles
     rlBegin(RL_TRIANGLES);
     for (int i = 0; i < num_indices; i++) {
         int index = indices[i];
         Rml::Vertex& v = vertices[index];
         
-        // Pass color, UV coordinates, and position to Raylib
         rlColor4ub(v.colour.red, v.colour.green, v.colour.blue, v.colour.alpha);
         rlTexCoord2f(v.tex_coord.x, v.tex_coord.y);
         rlVertex2f(v.position.x, v.position.y);

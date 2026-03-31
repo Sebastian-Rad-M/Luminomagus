@@ -5,14 +5,12 @@
     <title>Luminomagus</title>
     <style>
         body {
-            /* The body covers the whole screen. We make it completely dark. */
             width: 100%;
             height: 100%;
             background-color: transparent;
             margin: 0;
             padding: 0;
-            font-family: Cinzel Decorative; /* CHANGE THIS once you get a new font! */
-        }
+            font-family: Cinzel Decorative;}
 
         #title-container {
             position: absolute;
@@ -36,7 +34,7 @@
             color: #5a544f;
             margin-top: -10dp;
             margin-left: 5dp;
-            font-style: italic;
+            /*font-style: italic*/
         }
 
         #main-menu {
@@ -50,19 +48,18 @@
         .menu-button {
             display: block;
             font-size: 36dp;
-            color: #8c857d; /* Ash color */
+            color: #8c857d; 
             text-transform: uppercase;
             margin-bottom: 15dp;
             padding: 5dp 0;
             cursor: pointer;
-            transition: color 0.2s, transform 0.1s;
+            transition: color 0.2s, transform 0.2s;
         }
 
         .menu-button:hover {
             color: #ffffff; /* The spark of creation */
-            /* A glowing effect on hover */
             font-effect: shadow(0dp 0dp 10dp #ffea00); 
-            transform: scale(1.05); /* Slight jump forward */
+            transform: scale(1.02);
         }
 
         .menu-button:active {

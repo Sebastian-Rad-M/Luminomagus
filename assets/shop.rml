@@ -71,7 +71,7 @@
         .sold-out {
             width: 260px; /* Matches the new larger card size */
             height: 364px;
-            border: 1px dashed #333333;
+            border: 1px #333333; 
             color: #333333;
             display: flex;
             justify-content: center;
@@ -131,7 +131,7 @@
 
         #btn-leave-shop:hover {
             color: #ffffff;
-            font-effect: shadow(0dp 0dp 10dp #ffffff);
+            font-effect: shadow(2px 2px #ffea00);
         }
     </style>
 </head>

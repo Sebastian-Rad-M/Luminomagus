@@ -20,14 +20,20 @@ GameManager& GameManager::instance() {static GameManager inst;return inst;}
 void GameManager::run() {
 
 	// RAYLIB
-	SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_WINDOW_MAXIMIZED);
+	SetConfigFlags(FLAG_WINDOW_RESIZABLE );
 	InitWindow(1280, 720, "Luminomagus");
+	MaximizeWindow();
 	SetTargetFPS(60);
 	SetExitKey(0);
+	
 	//SHADRES 
 	Shader voidShader = LoadShader(0, "assets/Void.fs");
 	int timeLoc = GetShaderLocation(voidShader, "u_time");
 	int resLoc = GetShaderLocation(voidShader, "u_resolution");
+	
+	Shader smokeShader = LoadShader(0, "assets/SubtleSmoke.fs");
+	int smokeTimeLoc = GetShaderLocation(smokeShader, "u_time");
+	Texture2D combatBgTexture = LoadTexture("assets/combat_bg.png");
 
 	// RMLUI
 	RaylibRenderInterface renderInterface;
@@ -67,9 +73,15 @@ void GameManager::run() {
 
 	if (docShop) if (auto el = docShop->GetElementById("btn-leave-shop"))el->AddEventListener(Rml::EventId::Click, &shopListener);
 	GameState previousState = state;
+	context->SetDimensions(Rml::Vector2i(GetScreenWidth(), GetScreenHeight()));
 
 	// ===== MAIN FRAME LOOP =====
 	while (!WindowShouldClose()) {
+		Rml::Vector2i rmlDimensions = context->GetDimensions();
+		if (rmlDimensions.x != GetScreenWidth() || rmlDimensions.y != GetScreenHeight()) {
+			context->SetDimensions(Rml::Vector2i(GetScreenWidth(), GetScreenHeight()));
+		}
+
 		if (IsKeyPressed(KEY_ESCAPE)) state = GameState::MAIN_MENU;
 		GameState currentState = state;
 
@@ -132,25 +144,35 @@ void GameManager::run() {
 		context->Update();
 
 		BeginDrawing();
-		ClearBackground(BLACK); // Keep black as a fallback
+		ClearBackground(BLACK); 
 
-		// --- RENDER THE VOID SHADER ---
 		float time = (float)GetTime();
 		float resolution[2] = { (float)GetScreenWidth(), (float)GetScreenHeight() };
-		
-		SetShaderValue(voidShader, timeLoc, &time, SHADER_UNIFORM_FLOAT);
-		SetShaderValue(voidShader, resLoc, resolution, SHADER_UNIFORM_VEC2);
 
-		BeginShaderMode(voidShader);
-		// Draw a blank white rectangle over the whole screen; the shader will paint the fog onto it
-		DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), WHITE); 
-		EndShaderMode();
-		// ------------------------------
+        // --- BRANCH RENDERING BASED ON GAME STATE ---
+		if (currentState == GameState::COMBAT) {
+            // Draw the Combat Arena with Subtle Smoke
+			SetShaderValue(smokeShader, smokeTimeLoc, &time, SHADER_UNIFORM_FLOAT);
+			
+			BeginShaderMode(smokeShader);
+			Rectangle sourceRec = { 0.0f, 0.0f, (float)combatBgTexture.width, (float)combatBgTexture.height };
+			Rectangle destRec = { 0.0f, 0.0f, (float)GetScreenWidth(), (float)GetScreenHeight() };
+			Vector2 origin = { 0.0f, 0.0f };
+			
+			DrawTexturePro(combatBgTexture, sourceRec, destRec, origin, 0.0f, WHITE);
+			EndShaderMode();
+		} 
+        else {
+        	SetShaderValue(voidShader, timeLoc, &time, SHADER_UNIFORM_FLOAT);
+			SetShaderValue(voidShader, resLoc, resolution, SHADER_UNIFORM_VEC2);
+			BeginShaderMode(voidShader);
+			DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), WHITE); 
+			EndShaderMode();
+		}
+		context->Render();
 
-		context->Render(); // RmlUi (your main menu) draws on top of the void
-		EndDrawing();
-		if (IsWindowResized()) context->SetDimensions(Rml::Vector2i(GetScreenWidth(), GetScreenHeight()));
-	}
+		EndDrawing();	
+		}
 
 	Rml::Shutdown();
 	CloseWindow();

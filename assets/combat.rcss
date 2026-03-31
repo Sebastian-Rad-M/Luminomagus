@@ -10,115 +10,105 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: Arial;
-    decorator: image("combat_bg.png"); 
+    font-family: Cinzel Decorative;
+   /* decorator: image("combat_bg.png"); */
+   background-color: transparent;
 }
-
+.noShow {display: none;}
 #combat-layout {
     width: 100%; 
     height: 100%;
     position: relative;
 }
 
-/* =====================================================
-   THE GRIMDARK BOX (Replaces .layout-box)
-   ===================================================== */
-.grim-box {
+.UI_Box {
     box-sizing: border-box;
     border-width: 2px;
-    border-color: #333333; /* Heavy iron border */
-    background-color: rgba(8, 8, 8, 0.85); /* Dark ash window */
+    border-color: #333333; 
+    background-color: rgba(8, 8, 8, 0.5); 
     padding: 10dp;
 }
+.left-col{
+    position: absolute;
+    width: 22%;
+    left:0px;
+    height: 90%;
+    margin-top: 30px;
+    top:0px;
+    background-color:rgba(175, 238, 238, 0.3); 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 
-/* =====================================================
-   LAYOUT POSITIONS (Directly from your RCSS.txt)
-   ===================================================== */
-
-/* TOP LEFT: Menu Button */
+}
 #btn-combat-menu {
-    position: absolute; 
-    top: 2%; 
-    left: 2%;
     width: auto;
 }
 
-/* LEFT COLUMN: Prompt */
 #combat-prompt {
-    position: absolute; 
-    top: 12%; 
-    left: 2%;
-    width: 24%; 
-    height: 35%;
+    height: 55%;
     text-align: center; 
 }
 
-/* LEFT COLUMN: Status Tracker */
 #combat-status {
-    position: absolute; 
-    top: 48%; 
-    left: 2%;
-    width: 24%; 
+    margin-top: 30dp;
     height: 15%;
     display: flex; 
-    flex-direction: column; 
+    flex-direction: row; 
     justify-content: space-evenly;
 }
-
-/* LEFT COLUMN: Mana Pool */
+#last-played-box{
+    margin-top: 30dp;
+    height: 10%;
+    font-size: 20px;
+}
+/*TODO: make it have functionality*/
 #combat-mana {
-    position: absolute; 
-    top: 64%; 
-    left: 2%;
-    width: 24%; 
+    margin-top: 30dp;
     height: 15%;
     display: flex; 
-    flex-direction: column; 
+    flex-direction: row; 
     justify-content: space-evenly;
 }
 
-/* TOP RIGHT: Boss Info */
+.pile-box{
+    margin-top: 30dp;
+    height: 45%;
+}
+
+.pile {
+    margin-left: 10dp;
+    position: relative;
+    overflow: hidden;
+    width: 45%;
+    height: 100%;
+}
+.pile-label { font-size: 14dp; color: #5a544f; letter-spacing: 2dp; text-transform: uppercase; }
+.pile-box:hover { border-color: #8c857d; cursor: pointer; }
+
 #boss-section {
-    position: absolute; 
-    top: 2%; 
-    left: 74%;
-    width: 24%; 
-    height: 18%;
+    position:absolute;
+    width: 30%; 
+    left: 33%;
+    height: 60%;
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 #boss-name-display { font-size: 28dp; font-weight: bold; color: #b3aca2; margin-bottom: 5dp; text-transform: uppercase; }
-#boss-desc-display { font-size: 14dp; color: #8c857d; font-style: italic; }
+#boss-desc-display { font-size: 14dp; color: #8c857d; }
 
-/* RIGHT EDGE: Piles */
-.pile-box {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden; /* Hides scaled cards clipping */
-}
-.pile-label { font-size: 14dp; color: #5a544f; letter-spacing: 2dp; text-transform: uppercase; }
-.pile-box:hover { border-color: #8c857d; cursor: pointer; }
-
-#deck-section { position: absolute; top: 40%; left: 88%; width: 10%; height: 18%; }
-#graveyard-section { position: absolute; top: 60%; left: 88%; width: 10%; height: 18%; }
-#void-section { position: absolute; top: 80%; left: 88%; width: 10%; height: 18%; }
-
-/* BOTTOM LEFT: Relics */
 #relic-section {
     position: absolute; 
-    top: 80%; 
-    left: 2%;
-    width: 25%; 
-    height: 18%;
-    overflow-y: auto; /* Let them scroll if they stack up */
+    top: 2%; 
+    left: 66%;
+    width: 30%; 
+    height: 60%;
+    overflow-y: auto; 
     text-align: center;
 }
 
-/* BOTTOM CENTER-RIGHT: Hand */
 #hand-section {
     position: absolute; 
     top: 70%; 
@@ -129,15 +119,21 @@ body {
 #hand-container {
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Cards hang from the top of the container */
+    align-items: flex-start; 
     padding-top: 30dp;
+    margin-left: 100dp;
+}
+.menu-button{
+    margin-top: 70dp;
+    width: 30%;
+    height: 8%;
+font-size: 20px;
 }
 
-/* =====================================================
-   COMPONENTS
-   ===================================================== */
+#combat-menu-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); z-index: 500; }
+.menu-box { width: 300px; margin: 15% auto; text-align: center; padding: 30dp; }
 
-/* Text inside status/mana rows */
+
 .status-row {
     display: flex;
     align-items: center;
@@ -150,8 +146,7 @@ body {
 .status-icon { display: inline-block; width: 28px; height: 28px; }
 #x-value-display { font-size: 26dp; font-weight: bold; color: #ffffff; margin: 0 15dp; vertical-align: middle; }
 
-/* Buttons */
-.void-btn {
+.btn {
     background-color: #050505;
     color: #b3aca2;
     border-width: 2px;
@@ -161,37 +156,33 @@ body {
     text-transform: uppercase;
     cursor: pointer;
 }
-.void-btn:hover { border-color: #ffffff; color: #ffffff; }
+.btn:hover { border-color: #ffffff; color: #ffffff; }
 
-/* Cards in Hand (Reinstating your old margin/top logic) */
 .card-wrapper {
     display: inline-block;
-    margin: 0 -20dp; /* Overlap cards */
+    margin: 0 -20dp; 
     position: relative;
     top: 0;
     transition: top 0.2s;
-    cursor: pointer;
 }
 .card-wrapper:hover {
-    top: -40dp; /* Pulls up when hovered */
+    top: -10dp;
     z-index: 100;
 }
 
-/* Miniature Cards in Piles */
 .small-card-wrapper {
     position: absolute;
     top: 0;
     left: 0;
-    transform: scale(0.35); /* Shrinks the massive cards to fit */
-    transform-origin: top left;
+    transform: scale(0.35); 
+    transform-origin: 0 0;
 }
-#graveyard-container, #void-container { width: 100%; height: 100%; }
 
 /* Relics */
 .relic-wrapper { display: inline-block; position: relative; margin: 5dp; }
 .relic-btn {
     display: block;
-    width: 120px;
+    width: 420px;
     height: 80px; 
     background-color: #050505;
     color: #b3aca2;
@@ -206,7 +197,7 @@ body {
 .relic-tooltip {
     display: none; 
     position: absolute;
-    top: 100%; left: 0; width: 120px; margin-top: 5dp;
+    top: 0; left: 0; width: 120px; margin-top: 5dp;
     background-color: rgba(5, 5, 5, 0.95);
     border-width: 1px; border-color: #555555; padding: 10dp; z-index: 50; box-sizing: border-box;
 }
@@ -216,9 +207,5 @@ body {
 .tooltip-shatter { width: 100%; background-color: #1a0505; color: #ff4444; border-width: 1px; border-color: #ff4444; padding: 5dp; font-size: 11dp; text-transform: uppercase; cursor: pointer; display: block; }
 .tooltip-shatter:hover { background-color: #ff4444; color: #000000; }
 
-/* Overlays */
-#combat-menu-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); z-index: 500; }
-.menu-box { width: 300px; margin: 15% auto; text-align: center; padding: 30dp; }
-
-#pile-view-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); z-index: 400; }
-#pile-view-content { width: 800px; height: 60%; margin: 5% auto; overflow-y: auto; text-align: center; padding: 40dp; }
+#pile-view-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); z-index: 500; }
+.pile-view-content { width: 300px; margin: 15% auto; text-align: center; padding: 30dp; }

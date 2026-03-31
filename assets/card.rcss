@@ -47,7 +47,7 @@
     width: 30dp; 
     height: 30dp; 
     line-height: 30dp; 
-    border-radius: 50%; 
+    border-radius: 50px; 
     margin-right: 2dp; 
 }/* --- BASE CARD: A slab of dark ash --- */
 .card {
@@ -56,7 +56,7 @@
     width: 330px;
     height: 460px;
     border-width: 2px;
-    border-radius: 2px; /* Jagged, barely rounded */
+    border-radius: 4px; 
     box-sizing: border-box;
     padding: 8px;
     background-color: #050505; /* Almost pure void */
@@ -70,10 +70,8 @@
 .card-green { border-color: #0f4a0f; } /* Light */
 .card-generic { border-color: #2a2a2a; } /* Ash */
 
-/* --- THE SPARK (Hover State) --- */
-/* When the Luminomagus focuses on a card, it flares with desperate energy */
 .card:hover {
-    transform: scale(1.08); /* Jumps toward the player */
+    transform: scale(1.01); 
 }
 .card-red:hover { border-color: #ff3333; }
 .card-blue:hover { border-color: #3366ff; }

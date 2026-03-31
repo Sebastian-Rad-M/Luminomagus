@@ -8,14 +8,14 @@
 <body id="combat-body">
     <div id="combat-layout">
         
-        <button class="void-btn" id="btn-combat-menu">|| Menu</button>
         
-        <div id="combat-prompt" class="grim-box">
-            <div id="prompt-line-1" style="color: #5a544f; letter-spacing: 2dp;"></div>
-            <div id="prompt-line-2" style="color: #ffea00; font-size: 24dp; font-weight: bold; margin-top: 10dp;"></div>
-            
-            <div id="inline-mana-prompt" style="display: none; margin-top: 20dp;">
-                <div style="color: #b3aca2; margin-bottom: 10dp;">Draw from the Pool</div>
+        <div class="left-col">
+        <button class="btn" id="btn-combat-menu">|| Menu</button>
+        <div id="combat-prompt" class="UI_Box">
+            <div id="prompt-line-1" ></div>
+            <div id="prompt-line-2" ></div>    
+            <div id="inline-mana-prompt" class="noShow">
+                <div >Choose which to use</div>
                 <div style="display: flex; justify-content: center; gap: 10dp;">
                     <div class="mana-icon icon-red" id="mana-red" style="cursor: pointer;"></div>
                     <div class="mana-icon icon-blue" id="mana-blue" style="cursor: pointer;"></div>
@@ -23,66 +23,70 @@
                 </div>
             </div>
             
-            <div id="inline-x-prompt" style="display: none; margin-top: 20dp;">
-                <div style="color: #b3aca2; margin-bottom: 10dp;">Channel Energy</div>
-                <button class="void-btn" id="btn-x-minus">-</button>
+            <div id="inline-x-prompt" class="noShow">
+                <div>Choose a value for X:</div>
+                <button class="btn" id="btn-x-minus">-</button>
                 <span id="x-value-display">0</span>
-                <button class="void-btn" id="btn-x-plus">+</button>
+                <button class="btn" id="btn-x-plus">+</button>
                 <div style="margin-top: 15dp;">
-                    <button class="void-btn" id="btn-x-confirm">Manifest</button>
+                    <button class="btn" id="btn-x-confirm">Enter</button>
                 </div>
             </div>
             
             <div id="inline-yesno-prompt" style="display: none; margin-top: 20dp;">
                 <div id="yesno-message" style="color: #b3aca2; margin-bottom: 10dp;"></div>
-                <button class="void-btn" id="btn-yes">Yes</button>
-                <button class="void-btn" id="btn-no">No</button>
+                <button class="btn" id="btn-yes">Yes</button>
+                <button class="btn" id="btn-no">No</button>
             </div>
         </div>
-
-        <div id="combat-status" class="grim-box">
+        <div id="last-played-box" class="UI_Box"> Last played card:<span id="last-played">None</span></div>
+        <div id="combat-status" class="UI_Box">
             <div class="status-row">
                 <div class="status-icon icon-echo"></div> <span id="count-echo">0</span>
             </div>
+            
             <div class="status-row">
                 <div class="status-icon icon-score"></div> <span id="count-score">0/10</span>
             </div>
+            
             <div class="status-row">
                 <div class="status-icon icon-deck"></div> <span id="count-deck">0</span>
             </div>
         </div>
 
-        <div id="combat-mana" class="grim-box">
+        <div id="combat-mana" class="UI_Box">
             <div class="status-row">
                 <div class="mana-icon icon-red"></div> <span id="count-light-red">0</span>
             </div>
+            
             <div class="status-row">
                 <div class="mana-icon icon-blue"></div> <span id="count-light-blue">0</span>
             </div>
+            
             <div class="status-row">
                 <div class="mana-icon icon-green"></div> <span id="count-light-green">0</span>
             </div>
         </div>
-
-        <div id="boss-section" class="grim-box">
-            <div id="boss-name-display">THE VOID SLUMBERS</div>
-            <div id="boss-desc-display">Only the creeping dark remains. Hold it back.</div>
-        </div>
-
-        <div id="deck-section" class="pile-box grim-box">
-            <div class="pile-label">DECK</div>
-        </div>
-        <div id="graveyard-section" class="pile-box grim-box">
+        <div class="pile-box"> 
+        <div id="graveyard-section" class="pile UI_Box">
             <div id="graveyard-container"></div>
             <div class="pile-label" id="graveyard-title">THE ASH</div>
         </div>
-        <div id="void-section" class="pile-box grim-box">
+        <div id="void-section" class="pile UI_Box">
             <div id="void-container"></div>
             <div class="pile-label" id="void-title">THE VOID</div>
         </div>
+    </div>
+    </div>
 
-        <div id="relic-section" class="grim-box">
-            <div class="pile-label" style="position: relative; margin-bottom: 5dp;">BURDENS</div>
+
+        <div id="boss-section" class="UI_Box">
+            <div id="boss-name-display">Nothing</div>
+            <div id="boss-desc-display">Just score enough.</div>
+        </div>
+
+        <div id="relic-section" class="UI_Box">
+            <div class="pile-label" style="position: relative; margin-bottom: 5dp;">Relics</div>
             <div id="relic-container"></div>
         </div>
 
@@ -90,22 +94,22 @@
             <div id="hand-container"></div>
         </div>
 
-        <div id="combat-menu-overlay" style="display: none;">
-            <div class="menu-box grim-box">
-                <button class="void-btn" id="btn-menu-resume" style="display: block; width: 100%; margin-bottom: 10dp;">Resume Struggle</button>
-                <button class="void-btn" id="btn-menu-restart" style="display: block; width: 100%; margin-bottom: 10dp;">Surrender & Restart</button>
-                <button class="void-btn" id="btn-menu-quit" style="display: block; width: 100%;">Abandon to Void</button>
+        <div id="combat-menu-overlay" class="noShow">
+            <div class="menu-box UI_Box">
+                <button  id="btn-menu-resume" class="btn menu-button">Resume</button>
+                <button  id="btn-menu-restart" class="btn menu-button">Restart</button>
+                <button  id="btn-menu-quit" class="btn menu-button">Abandon</button>
             </div>
         </div>
 
-        <div id="pile-view-bg" style="display: none;">
-            <div id="pile-view-content" class="grim-box">
-                <h1 id="pile-view-title" style="margin-bottom: 20dp; color: #b3aca2; font-size: 30dp;">THE ASH</h1>
-                <div id="pile-view-cards" style="display: block; position: relative; margin: 0 auto;"></div>
-            </div>
-            <button class="void-btn" id="btn-close-pile-view" style="position: absolute; bottom: 30dp; left: 45%;">Close Eyes</button>
+        <div id="pile-view-bg" class="noShow">
+            <div class="pile-view-content UI_Box">
+                <h1 id="pile-view-title" ></h1>
+                <div id="pile-view-cards" ></div>
+            
+            <button class="btn" id="btn-close-pile-view">Close</button>
         </div>
-
+        </div>
     </div>
 </body>
 </rml>
