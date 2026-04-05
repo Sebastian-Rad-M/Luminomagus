@@ -61,3 +61,4 @@ char Card::getRarity() const { return rarity; }
 int Card::totalCost() const { return genericCost + redCost + blueCost + greenCost; }
 void Card::setText(std::string t) {text=t;}
 std::string Card::getText() const {return text;}
+char Card::getFrame() const {return frame;}

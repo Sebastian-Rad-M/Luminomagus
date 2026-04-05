@@ -14,6 +14,7 @@ class Card {
 	int genericCost, redCost, blueCost, greenCost;
 	std::vector<std::unique_ptr<IEffect>> effects;
 	char rarity;//C U R L
+	char frame=0;//null if nothing, else initial
 	std::shared_ptr<modifier> mod = nullptr;
 
    public:
@@ -35,4 +36,5 @@ class Card {
 	int totalCost() const;
 	void setText(std::string);
 	std::string getText() const;
+	char getFrame() const;
 };

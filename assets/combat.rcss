@@ -5,6 +5,10 @@
     icon-deck:  96px 96px 32px 32px;
 }
 
+.icon-echo { decorator: image(icon-echo); }
+.icon-score { decorator: image(icon-score); }
+.icon-deck { decorator: image(icon-deck); }
+
 body {
     width: 100%;
     height: 100%;

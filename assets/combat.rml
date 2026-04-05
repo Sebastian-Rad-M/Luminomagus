@@ -15,7 +15,7 @@
             <div id="prompt-line-1" ></div>
             <div id="prompt-line-2" ></div>    
             <div id="inline-mana-prompt" class="noShow">
-                <div >Choose which to use</div>
+                <div >Choose a color of mana</div>
                 <div style="display: flex; justify-content: center; gap: 10dp;">
                     <div class="mana-icon icon-red" id="mana-red" style="cursor: pointer;"></div>
                     <div class="mana-icon icon-blue" id="mana-blue" style="cursor: pointer;"></div>
