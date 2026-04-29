@@ -57,13 +57,12 @@
         }
 
         .menu-button:hover {
-            color: #ffffff; /* The spark of creation */
-            font-effect: shadow(0dp 0dp 10dp #ffea00); 
+            color: #ffffff;
             transform: scale(1.02);
         }
 
         .menu-button:active {
-            color: #ffea00;
+            color: #c8c8c8;
         }
     </style>
 </head>
@@ -75,7 +74,7 @@
 
     <div id="main-menu">
         <div id="btn-new-run" class="menu-button">Ignite New Run</div>
-        <div id="quit-btn" class="menu-button">Surrender to Void</div>
+        <div id="btn-quit" class="menu-button">Surrender to Void</div>
     </div>
 </body>
 </rml>
