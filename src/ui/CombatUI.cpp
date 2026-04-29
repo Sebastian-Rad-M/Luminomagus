@@ -208,22 +208,17 @@ void CombatListener::refreshUI() {
 					cards = &round.getExile().getCards();
 				}
 
-				int cols = 3;
 				for (size_t i = 0; i < cards->size(); i++) {
-					int row = i / cols;
-					int col = i % cols;
-					int x = col * 155;
-					int y = row * 215;
 					std::string idStr =
 						showSelection ? " id=\"select-card-" + std::to_string(i) + "\"" : "";
-					html += "<div" + idStr + ">";
+
+					std::string styleStr = " style=\"width: 264px; height: 368px;\"";
+
+					html += "<div class=\"pile-card-wrapper\"" + idStr + styleStr + ">";
 					html += UIHelpers::GenerateCardRML(cardTemplateRML, *(*cards)[i]);
 					html += "</div>";
 				}
 				container->SetInnerRML(html);
-				container->SetProperty(
-					"height",
-					std::to_string(((cards->size() + cols - 1) / cols) * 215 + 50) + "px");
 				if (showSelection) {
 					for (size_t i = 0; i < cards->size(); i++) {
 						if (auto btn =

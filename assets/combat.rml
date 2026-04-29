@@ -103,7 +103,7 @@
         </div>
 
         <div id="pile-view-bg" class="noShow">
-            <div class="pile-view-content UI_Box">
+            <div class="pile-view-content">
                 <h1 id="pile-view-title" ></h1>
                 <div id="pile-view-cards" ></div>
             

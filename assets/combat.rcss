@@ -82,12 +82,27 @@ body {
     flex-direction: row;
 }
   #pile-view-cards {
-      position: relative;
-      width: 100%;
-	  height:100%;
-	  background-color: #00ff00;
-	  color: #00ff00;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 0dp;
+      width: 28vw;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 0dp;
   }
+
+.pile-card-wrapper {
+    margin: 10dp;
+    flex-shrink: 0;
+}
+
+.pile-card-wrapper > .card {
+	width: 100%;
+	height: 100%;
+}
 
 .pile {
     margin-left: 10dp;
@@ -241,11 +256,8 @@ font-size: 20px;
   }  
 
  .pile-view-content {
-	height: 100%;
-      width: 100%;
-      box-sizing: border-box;
+      height: 500px;
+      width: 500px;
       padding: 10dp;
       text-align: center;
-	  background-color: rgba(255, 255, 0, 1);
-  }                                                                                                                                                                  
-           
+  }
