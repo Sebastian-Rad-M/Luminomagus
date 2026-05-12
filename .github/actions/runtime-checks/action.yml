@@ -21,7 +21,22 @@ runs:
       continue-on-error: true
       run: |
         cat "${INPUT_FILENAME}" | ./${{ env.ZIP_NAME }}/"${EXECUTABLE_NAME}".exe
-
+    - name: Run with Virtual Display
+      if: runner.os == 'Linux'
+      shell: bash
+      run: |
+        # 1. Install the virtual framebuffer
+        sudo apt-get update && sudo apt-get install -y xvfb
+        
+        # 2. DEBUG: Print the contents of the directory so we can see if the file is actually there
+        echo "Checking contents of ${{ env.ZIP_NAME }}:"
+        ls -la ./${{ env.ZIP_NAME }}/
+        
+        # 3. Add execution permissions just in case it was lost during the move
+        chmod +x ./${{ env.ZIP_NAME }}/"${{ env.EXECUTABLE_NAME }}"
+        
+        # 4. Correctly pipe the inputs INTO the xvfb-wrapped game
+        cat "${INPUT_FILENAME}" | tr -d '\r' | xvfb-run -a ./${{ env.ZIP_NAME }}/"${{ env.EXECUTABLE_NAME }}"
     - name: Valgrind
       shell: bash
       if: runner.os == 'Linux' && matrix.runs_valgrind == true
