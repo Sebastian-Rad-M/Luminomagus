@@ -18,3 +18,23 @@ runs:
       run: |
         # sudo apt-get update
         sudo apt-get install --no-install-recommends valgrind
+    - name: Install X11 and OpenGL (Linux)
+      if: runner.os == 'Linux'
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          libx11-dev \
+          libxrandr-dev \
+          libxinerama-dev \
+          libxcursor-dev \
+          libxi-dev \
+          libgl1-mesa-dev \
+          libglu1-mesa-dev \
+          xorg-dev
+    - name: Download Mesa for Software Rendering (Windows)
+      if: runner.os == 'Windows'
+      shell: bash
+      run: |
+        curl -L -o mesa.7z https://github.com/pal1000/mesa-dist-win/releases/download/24.0.7/mesa3d-24.0.7-release-msvc.7z
+        7z e mesa.7z x64/opengl32.dll -o"./${{ env.ZIP_NAME }}"
