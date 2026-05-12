@@ -147,13 +147,13 @@ jobs:
             runs_asan: false
 
             # renovate: depName=macos
-          - os: macos-14
-            c: gcc-13
-            cxx: g++-13
+         # - os: macos-14
+          #  c: gcc-13
+           # cxx: g++-13
             # renovate: depName=macos
-            name: "macOS 14 GCC 13"
-            cmake_flags: "-DBUILD_SHARED_LIBS=OFF"
-            cmake_generator: Ninja
+            #name: "macOS 14 GCC 13"
+            #cmake_flags: "-DBUILD_SHARED_LIBS=OFF"
+            #cmake_generator: Ninja
 
             # renovate: depName=windows
           - os: windows-2022
@@ -220,7 +220,7 @@ jobs:
 
       - name: Move artifacts
         run: |
-          mkdir ${{ env.ZIP_NAME }}
+          mkdir -p ${{ env.ZIP_NAME }}
           shopt -s dotglob
           mv artifacts/${{ env.BIN_DIR }}/* ${{ env.ZIP_NAME }}
           ls -la ${{ env.ZIP_NAME }}

@@ -38,3 +38,9 @@ runs:
       run: |
         curl -L -o mesa.7z https://github.com/pal1000/mesa-dist-win/releases/download/24.0.7/mesa3d-24.0.7-release-msvc.7z
         7z e mesa.7z x64/opengl32.dll -o"./${{ env.ZIP_NAME }}"
+    - name: Run with Virtual Display
+      if: runner.os == 'Linux'
+      shell: bash
+      run: |
+        sudo apt-get update && sudo apt-get install -y xvfb
+        xvfb-run -a cat "${INPUT_FILENAME}" | tr -d '\r' | ./${{ env.ZIP_NAME }}/"${{ env.EXECUTABLE_NAME }}"
