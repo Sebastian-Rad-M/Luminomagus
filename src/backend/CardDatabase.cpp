@@ -1,5 +1,6 @@
 #include "CardDatabase.h"
 #include "Effect.h"
+#include "Exceptions.h"
 #include "RNG.h"
 
 CardDatabase &CardDatabase::getInstance() {
@@ -124,7 +125,7 @@ void CardDatabase::loadAllCards() {
   Card catalogue("Catalogue", 0, 0, 2, 0, 'U');
   catalogue.setText("Draw 3");
   catalogue.addEffect(std::make_unique<DrawCardEffect>(3));
-  library["c_siftTheScrolls"] = catalogue;
+  library["c_catalogue"] = catalogue;
 
   Card interfereWithThePattern("Interfere with the pattern", 0, 0, 1, 1, 'U');
   interfereWithThePattern.setText(
@@ -443,13 +444,12 @@ void CardDatabase::loadAllCards() {
 std::shared_ptr<Card> CardDatabase::createCard(const std::string &cardID) {
   if (library.find(cardID) != library.end())
     return std::make_shared<Card>(library[cardID]);
-  std::cerr << "Error: Card ID " << cardID << " not found!\n";
-  return nullptr;
+  throw DatabaseException("Card ID " + cardID + " not found!");
 }
 
 std::shared_ptr<Card> CardDatabase::getTrueRandomCard() {
   if (library.empty())
-    return nullptr;
+    throw DatabaseException("Attempted to get random card from empty database!");
   int randomIndex = RNG::range(0, (int)library.size() - 1);
   auto rCard = library.begin();
   std::advance(rCard, randomIndex);
@@ -458,7 +458,7 @@ std::shared_ptr<Card> CardDatabase::getTrueRandomCard() {
 
 std::shared_ptr<Card> CardDatabase::getRandomCard() {
   if (library.empty())
-    return nullptr;
+    throw DatabaseException("Attempted to get random card from empty database!");
   int totalWeight = 0;
   for (const auto &pair : library) {
     char r = pair.second.getRarity();
@@ -476,8 +476,7 @@ std::shared_ptr<Card> CardDatabase::getRandomCard() {
     }
   }
   if (totalWeight == 0) {
-    std::cerr << "  [!] Error: No draftable cards in the database!\n";
-    return nullptr;
+    throw DatabaseException("No draftable cards in the database!");
   }
 
   int winningTicket = RNG::range(1, totalWeight);

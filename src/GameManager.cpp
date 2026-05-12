@@ -12,6 +12,7 @@
 #include "RaylibSystemInterface.h"
 #include "RelicFactory.h"
 #include "ShopUI.h"
+#include "backend/Exceptions.h"
 
 // debug
 #include <RmlUi/Debugger.h>
@@ -47,8 +48,7 @@ void GameManager::run() {
 	Rml::Context* context =
 		Rml::CreateContext("main", Rml::Vector2i(GetScreenWidth(), GetScreenHeight()));
 	if (!context) {
-		CloseWindow();
-		return;
+		throw ResourceException("Failed to create RmlUi context");
 	}
 	Rml::LoadFontFace("assets/ARIAL.ttf");
 	Rml::LoadFontFace("assets/CinzelDecorative-Regular.ttf");
@@ -57,10 +57,15 @@ void GameManager::run() {
 	Rml::Debugger::SetVisible(true);
 
 	Rml::ElementDocument* docMainMenu = context->LoadDocument("assets/mainMenu.rml");
+	if (!docMainMenu) throw ResourceException("Failed to load mainMenu.rml");
 	Rml::ElementDocument* docDraft = context->LoadDocument("assets/draft.rml");
+	if (!docDraft) throw ResourceException("Failed to load draft.rml");
 	Rml::ElementDocument* docCombat = context->LoadDocument("assets/combat.rml");
+	if (!docCombat) throw ResourceException("Failed to load combat.rml");
 	Rml::ElementDocument* docShop = context->LoadDocument("assets/shop.rml");
+	if (!docShop) throw ResourceException("Failed to load shop.rml");
 	Rml::ElementDocument* docPostRun = context->LoadDocument("assets/postRun.rml");
+	if (!docPostRun) throw ResourceException("Failed to load postRun.rml");
 
 	MainMenuListener menuListener;
 	DraftListener draftListener;
