@@ -1,0 +1,115 @@
+<rml>
+<head>
+    <title>Combat</title>
+    <link type="text/rcss" href="style.rcss"/>
+    <link type="text/rcss" href="combat.rcss"/>
+    <link type="text/rcss" href="card.rcss"/>
+</head>
+<body id="combat-body">
+    <div id="combat-layout">
+        
+        
+        <div class="left-col">
+        <button class="btn" id="btn-combat-menu">|| Menu</button>
+        <div id="combat-prompt" class="UI_Box">
+            <div id="prompt-line-1" ></div>
+            <div id="prompt-line-2" ></div>    
+            <div id="inline-mana-prompt" class="noShow">
+                <div >Choose a color of mana</div>
+                <div style="display: flex; justify-content: center; gap: 10dp;">
+                    <div class="mana-icon icon-red" id="mana-red" style="cursor: pointer;"></div>
+                    <div class="mana-icon icon-blue" id="mana-blue" style="cursor: pointer;"></div>
+                    <div class="mana-icon icon-green" id="mana-green" style="cursor: pointer;"></div>
+                </div>
+            </div>
+            
+            <div id="inline-x-prompt" class="noShow">
+                <div>Choose a value for X:</div>
+                <button class="btn" id="btn-x-minus">-</button>
+                <span id="x-value-display">0</span>
+                <button class="btn" id="btn-x-plus">+</button>
+                <div style="margin-top: 15dp;">
+                    <button class="btn" id="btn-x-confirm">Enter</button>
+                </div>
+            </div>
+            
+            <div id="inline-yesno-prompt" style="display: none; margin-top: 20dp;">
+                <div id="yesno-message" style="color: #b3aca2; margin-bottom: 10dp;"></div>
+                <button class="btn" id="btn-yes">Yes</button>
+                <button class="btn" id="btn-no">No</button>
+            </div>
+        </div>
+        <div id="last-played-box" class="UI_Box"> Last played card:<span id="last-played">None</span></div>
+        <div id="combat-status" class="UI_Box">
+            <div class="status-row">
+                <div class="status-icon icon-echo"></div> <span id="count-echo">0</span>
+            </div>
+            
+            <div class="status-row">
+                <div class="status-icon icon-score"></div> <span id="count-score">0/10</span>
+            </div>
+            
+            <div class="status-row">
+                <div class="status-icon icon-deck"></div> <span id="count-deck">0</span>
+            </div>
+        </div>
+
+        <div id="combat-mana" class="UI_Box">
+            <div class="status-row">
+                <div class="mana-icon icon-red"></div> <span id="count-light-red">0</span>
+            </div>
+            
+            <div class="status-row">
+                <div class="mana-icon icon-blue"></div> <span id="count-light-blue">0</span>
+            </div>
+            
+            <div class="status-row">
+                <div class="mana-icon icon-green"></div> <span id="count-light-green">0</span>
+            </div>
+        </div>
+        <div class="pile-box"> 
+        <div id="graveyard-section" class="pile UI_Box">
+            <div id="graveyard-container"></div>
+            <div class="pile-label" id="graveyard-title">THE ASH</div>
+        </div>
+        <div id="void-section" class="pile UI_Box">
+            <div id="void-container"></div>
+            <div class="pile-label" id="void-title">THE VOID</div>
+        </div>
+    </div>
+    </div>
+
+
+        <div id="boss-section" class="UI_Box">
+            <div id="boss-name-display">Nothing</div>
+            <div id="boss-desc-display">Just score enough.</div>
+        </div>
+
+        <div id="relic-section" class="UI_Box">
+            <div class="pile-label" style="position: relative; margin-bottom: 5dp;">Relics</div>
+            <div id="relic-container"></div>
+        </div>
+
+        <div id="hand-section">
+            <div id="hand-container"></div>
+        </div>
+
+        <div id="combat-menu-overlay" class="noShow">
+            <div class="menu-box UI_Box">
+                <button  id="btn-menu-resume" class="btn menu-button">Resume</button>
+                <button  id="btn-menu-restart" class="btn menu-button">Restart</button>
+                <button  id="btn-menu-quit" class="btn menu-button">Abandon</button>
+            </div>
+        </div>
+
+        <div id="pile-view-bg" class="noShow">
+            <div class="pile-view-content">
+                <h1 id="pile-view-title" ></h1>
+                <div id="pile-view-cards" ></div>
+            
+            <button class="btn" id="btn-close-pile-view">Close</button>
+        </div>
+        </div>
+    </div>
+</body>
+</rml>

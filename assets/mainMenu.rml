@@ -1,0 +1,80 @@
+
+<rml>
+<head>
+    <link type="text/rcss" href="style.rcss"/>
+    <title>Luminomagus</title>
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            margin: 0;
+            padding: 0;
+            font-family: Cinzel Decorative;}
+
+        #title-container {
+            position: absolute;
+            top: 15%;
+            left: 5%;
+            width: 90%;
+        }
+
+        h1.game-title {
+            font-size: 120dp; /* Massive */
+            color: #2a2a2a; /* Barely visible against the black, swallowed by void */
+            font-weight: bold;
+            text-align: left;
+            margin: 0;
+            /* RmlUi supports text shadows. Let's give it a faint, dying glow */
+            font-effect: shadow(2dp 2dp #000000); 
+        }
+
+        h2.subtitle {
+            font-size: 24dp;
+            color: #5a544f;
+            margin-top: -10dp;
+            margin-left: 5dp;
+            /*font-style: italic*/
+        }
+
+        #main-menu {
+            position: absolute;
+            bottom: 15%;
+            left: 5%;
+            width: 400dp;
+            display: block;
+        }
+
+        .menu-button {
+            display: block;
+            font-size: 36dp;
+            color: #8c857d; 
+            text-transform: uppercase;
+            margin-bottom: 15dp;
+            padding: 5dp 0;
+            cursor: pointer;
+            transition: color 0.2s, transform 1s;
+        }
+
+        .menu-button:hover {
+            color: #ffffff;
+            transform: scale(1.02);
+        }
+
+        .menu-button:active {
+            color: #c8c8c8;
+        }
+    </style>
+</head>
+<body id="main_menu_body">
+    <div id="title-container">
+        <h1 class="game-title">LUMINOMAGUS</h1>
+        <!-- <h2 class="subtitle">Hold back the dark. Create.</h2> -->
+    </div>
+
+    <div id="main-menu">
+        <div id="btn-new-run" class="menu-button">Ignite New Run</div>
+        <div id="btn-quit" class="menu-button">Surrender to Void</div>
+    </div>
+</body>
+</rml>

@@ -1,0 +1,138 @@
+/*TODO: cardart*/
+/*@spritesheet cards-sheet {
+    src: cards.png;
+    card-0: 0px 0px 200px 300px; 
+    card-1: 200px 0px 200px 300px;
+    card-2: 400px 0px 200px 300px;
+} .art-0 { decorator: image( card-0 ); }
+.art-1 { decorator: image( card-1 ); }
+.art-2 { decorator: image( card-2 ); }
+*/
+
+
+@spritesheet mana-sheet {
+    src: lightSprites.png;
+    mana-0: 0px 0px 32px 32px;
+    mana-1: 32px 0px 32px 32px;
+    mana-2: 64px 0px 32px 32px;
+    mana-3: 96px 0px 32px 32px;
+    mana-4: 0px 32px 32px 32px;
+    mana-5: 32px 32px 32px 32px;
+    mana-6: 64px 32px 32px 32px;
+    mana-7: 96px 32px 32px 32px;
+    mana-8: 0px 64px 32px 32px;
+    mana-9: 32px 64px 32px 32px;
+    mana-red: 64px 64px 32px 32px;
+    mana-blue: 96px 64px 32px 32px;
+     mana-green: 0px 96px 32px 32px;
+}
+
+    .icon-0 { decorator: image(mana-0); }
+    .icon-1 { decorator: image(mana-1); }
+    .icon-2 { decorator: image(mana-2); }
+    .icon-3 { decorator: image(mana-3); }
+    .icon-4 { decorator: image(mana-4); }
+    .icon-5 { decorator: image(mana-5); }
+    .icon-6 { decorator: image(mana-6); }
+    .icon-7 { decorator: image(mana-7); }
+    .icon-8 { decorator: image(mana-8); }
+    .icon-9 { decorator: image(mana-9); }
+    .icon-red { decorator: image(mana-red); }
+    .icon-blue { decorator: image(mana-blue); }
+    .icon-green { decorator: image(mana-green); }
+
+
+.mana-icon {
+    display: inline-block;
+    width: 30dp; 
+    height: 30dp; 
+    line-height: 30dp; 
+    border-radius: 50px; 
+    margin-right: 2dp; 
+}/* --- BASE CARD: A slab of dark ash --- */
+.card {
+    display: block;
+    position: relative;
+    width: 330px;
+    height: 460px;
+    border-width: 2px;
+    border-radius: 4px; 
+    box-sizing: border-box;
+    padding: 8px;
+    background-color: #050505; /* Almost pure void */
+    transition: transform 0.1s, border-color 0.2s;
+}
+
+/* --- THE ELEMENTS (Resting State) --- */
+/* Instead of bright backgrounds, we use dim, dying borders */
+.card-red { border-color: #4a0f0f; }   /* Heat */
+.card-blue { border-color: #0f0f4a; }  /* Sound */
+.card-green { border-color: #0f4a0f; } /* Light */
+.card-generic { border-color: #2a2a2a; } /* Ash */
+
+.card:hover {
+    transform: scale(1.01); 
+}
+.card-red:hover { border-color: #ff3333; }
+.card-blue:hover { border-color: #3366ff; }
+.card-green:hover { border-color: #33ff33; }
+.card-generic:hover { border-color: #ffffff; }
+
+/* --- CARD HEADER --- */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    height: 20%;
+    border-bottom-width: 1px;
+    border-bottom-color: #333; /* Faint dividing line */
+    padding-bottom: 5px;
+}
+
+.card-name {
+    display: inline-block;
+    font-size: 25px;
+    font-weight: bold;
+    color: #b3aca2; /* Ashen bone text */
+    width: 65%;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.card:hover .card-name {
+    color: #ffffff; /* Text brightens when held */
+    font-effect: shadow(1dp 1dp #000000);
+}
+
+.card-costs {
+    display: flex;
+    width: 30%;
+    justify-content: flex-end;
+}
+
+/* --- THE ART WINDOW --- */
+.card-art-window {
+    display: block;
+    width: 100%;
+    height: 230px; /* Smaller window to leave room for text */
+    margin-top: 5px;
+    background-color: #000000; /* Pure black */
+    border: 1px #1a1a1a;
+}
+
+/* --- THE INCANTATION (Card Text) --- */
+.card-text {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-top: 10px;
+    font-size: 18px;
+    color: #8c857d; /* Dying gray text */
+    text-align: center;
+    line-height: 1.2;
+}
+
+.card:hover .card-text {
+    color: #dddddd; /* Easier to read when focused */
+}

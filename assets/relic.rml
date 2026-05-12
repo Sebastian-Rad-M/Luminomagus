@@ -1,0 +1,11 @@
+<div class="relic-wrapper" id="relic-wrapper-[INDEX]">
+    <button class="relic-btn [ACTIVATABLE_CLASS]" id="relic-[INDEX]">
+        [NAME]
+    </button>
+    
+    <div class="relic-tooltip">
+        <span class="relic-tooltip-name">[NAME]</span>
+        <span class="relic-tooltip-desc">[DESC]</span>
+        <button class="tooltip-shatter" id="sell-relic-[INDEX]">Shatter</button>
+    </div>
+</div>

@@ -1,0 +1,263 @@
+@spritesheet status-icons {
+    src: lightSprites.png;
+    icon-echo:  32px 96px 32px 32px;
+    icon-score: 64px 96px 32px 32px;
+    icon-deck:  96px 96px 32px 32px;
+}
+
+.icon-echo { decorator: image(icon-echo); }
+.icon-score { decorator: image(icon-score); }
+.icon-deck { decorator: image(icon-deck); }
+
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Cinzel Decorative;
+   /* decorator: image("combat_bg.png"); */
+   background-color: transparent;
+}
+.noShow {display: none;}
+#combat-layout {
+    width: 100%; 
+    height: 100%;
+    position: relative;
+}
+
+.UI_Box {
+    box-sizing: border-box;
+    border-width: 2px;
+    border-color: #333333; 
+    background-color: rgba(8, 8, 8, 0.5); 
+    padding: 10dp;
+}
+.left-col{
+    position: absolute;
+    width: 22%;
+    left:0px;
+    height: 90%;
+    margin-top: 30px;
+    top:0px;
+    background-color:rgba(175, 238, 238, 0.3); 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+}
+#btn-combat-menu {
+    width: auto;
+}
+
+#combat-prompt {
+    height: 55%;
+    text-align: center; 
+}
+
+#combat-status {
+    margin-top: 30dp;
+    height: 15%;
+    display: flex; 
+    flex-direction: row; 
+    justify-content: space-evenly;
+}
+#last-played-box{
+    margin-top: 30dp;
+    height: 10%;
+    font-size: 20px;
+}
+/*TODO: make it have functionality*/
+#combat-mana {
+    margin-top: 30dp;
+    height: 15%;
+    display: flex; 
+    flex-direction: row; 
+    justify-content: space-evenly;
+}
+
+.pile-box{
+    margin-top: 30dp;
+    height: 45%;
+    display: flex;
+    flex-direction: row;
+}
+  #pile-view-cards {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 0dp;
+      width: 28vw;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 0dp;
+  }
+
+.pile-card-wrapper {
+    margin: 10dp;
+    flex-shrink: 0;
+}
+
+.pile-card-wrapper > .card {
+	width: 100%;
+	height: 100%;
+}
+
+.pile {
+    margin-left: 10dp;
+    position: relative;
+    width: 45%;
+    height: 100%;
+    min-height: 170dp;
+}
+.pile-label { font-size: 14dp; color: #5a544f; letter-spacing: 2dp; text-transform: uppercase; }
+.pile-box:hover { border-color: #8c857d; cursor: pointer; }
+
+#boss-section {
+    position:absolute;
+    width: 30%; 
+    left: 33%;
+    height: 60%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+#boss-name-display { font-size: 28dp; font-weight: bold; color: #b3aca2; margin-bottom: 5dp; text-transform: uppercase; }
+#boss-desc-display { font-size: 14dp; color: #8c857d; }
+
+#relic-section {
+    position: absolute; 
+    top: 2%; 
+    left: 66%;
+    width: 30%; 
+    height: 60%;
+    overflow-y: auto; 
+    text-align: center;
+}
+
+#hand-section {
+    position: absolute; 
+    top: 70%; 
+    left: 28%;
+    width: 58%; 
+    height: 30%;
+}
+#hand-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; 
+    padding-top: 30dp;
+    margin-left: 100dp;
+}
+.menu-button{
+    margin-top: 70dp;
+    width: 30%;
+    height: 8%;
+font-size: 20px;
+}
+
+#combat-menu-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); z-index: 500; }
+.menu-box { width: 300px; margin: 15% auto; text-align: center; padding: 30dp; }
+
+
+.status-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10dp;
+    font-size: 20dp;
+    font-weight: bold;
+    color: #ffffff;
+}
+.status-icon { display: inline-block; width: 28px; height: 28px; }
+#x-value-display { font-size: 26dp; font-weight: bold; color: #ffffff; margin: 0 15dp; vertical-align: middle; }
+
+.btn {
+    background-color: #050505;
+    color: #b3aca2;
+    border-width: 2px;
+    border-color: #333333;
+    padding: 8dp 15dp;
+    font-size: 16dp;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+.btn:hover { border-color: #ffffff; color: #ffffff; }
+
+.card-wrapper {
+    display: inline-block;
+    margin: 0 -20dp; 
+    position: relative;
+    top: 0;
+    transition: top 0.2s;
+}
+.card-wrapper:hover {
+    top: -10dp;
+    z-index: 100;
+}
+
+.small-card-wrapper {
+	width: 100%;
+	height: 100%;
+}
+.small-card-wrapper > .card {
+	left: 0px;
+	top: 0px;
+	padding: 0px;
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+}
+
+#graveyard-section {
+	padding: 0px;
+}
+
+/* Relics */
+.relic-wrapper { display: inline-block; position: relative; margin: 5dp; }
+.relic-btn {
+    display: block;
+    width: 420px;
+    height: 80px; 
+    background-color: #050505;
+    color: #b3aca2;
+    border-width: 2px; border-color: #444444; 
+    font-size: 14px; font-weight: bold; text-align: center;
+    cursor: pointer;
+    line-height: 80px; /* Vertically center text safely */
+}
+.relic-activatable { border-color: #ffea00; color: #ffffff; }
+.relic-btn:hover { background-color: #111111; border-color: #ffffff; color: #ffffff; }
+
+.relic-tooltip {
+    display: none; 
+    position: absolute;
+    top: 0; left: 0; width: 120px; margin-top: 5dp;
+    background-color: rgba(5, 5, 5, 0.95);
+    border-width: 1px; border-color: #555555; padding: 10dp; z-index: 50; box-sizing: border-box;
+}
+.relic-wrapper:hover .relic-tooltip { display: block; }
+.relic-tooltip-name { display: block; color: #ffffff; font-weight: bold; font-size: 12dp; margin-bottom: 5dp; line-height: 1.2;}
+.relic-tooltip-desc { display: block; color: #8c857d; font-size: 11dp; line-height: 1.3; margin-bottom: 10dp;}
+.tooltip-shatter { width: 100%; background-color: #1a0505; color: #ff4444; border-width: 1px; border-color: #ff4444; padding: 5dp; font-size: 11dp; text-transform: uppercase; cursor: pointer; display: block; }
+.tooltip-shatter:hover { background-color: #ff4444; color: #000000; }
+
+#pile-view-bg {                                                                                                                                                      
+      position: absolute;
+      left: 33%;                                                                                                                                                       
+      top: 0;     
+      width: 30%;                                                                                                                                                      
+      height: 60%;
+      background-color: rgba(0,0,0,0.95);
+      z-index: 500;                      
+      overflow-y: auto;                                                                                                                                                
+  }  
+
+ .pile-view-content {
+      height: 500px;
+      width: 500px;
+      padding: 10dp;
+      text-align: center;
+  }

@@ -1,0 +1,21 @@
+<rml>
+<head>
+    <title>Post Run</title>
+    <link type="text/rcss" href="style.rcss"/>
+    <style>
+        body { text-align: center; padding-top: 20%; background-color: #222222; }
+        h1 { font-size: 64px; color: #ff5555; margin-bottom: 40px; }
+        .win { color: #55ff55; }
+        .lose { color: #ff5555; }
+        button { font-size: 28px; padding: 15px 30px; margin: 15px; background-color: #333344; color: white; border: 2dp #555577; display: inline-block; }
+        button:hover { background-color: #444466; border-color: #7777aa; }
+    </style>
+</head>
+<body class="window">
+    <h1 id="post-run-title" class="lose">Game Over!</h1>
+    <div>
+        <button id="btn-post-restart">Restart Run</button>
+        <button id="btn-post-menu">Main Menu</button>
+    </div>
+</body>
+</rml>

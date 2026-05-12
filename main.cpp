@@ -1,13 +1,16 @@
 #include "GameManager.h"
-#ifdef _WIN32		  // useless
-#include <windows.h>  //useless
-#endif				  // useless
+#include "backend/Exceptions.h"
+#include <iostream>
 
 int main() {
-#ifdef _WIN32					  // useless
-	SetConsoleOutputCP(CP_UTF8);  // useless
-#endif							  // useless
-	GameManager::instance().run();
-	return 0;
+    try {
+        GameManager::instance().run();
+    } catch (const GameException& e) {
+        std::cerr << "Game Error: " << e.what() << std::endl;
+        return 1;
+    } catch (const std::exception& e) {
+        std::cerr << "Standard Error: " << e.what() << std::endl;
+        return 2;
+    }
+    return 0;
 }
-// i could have a 4 line main, but nooo, windows console encoding needs babysiting
