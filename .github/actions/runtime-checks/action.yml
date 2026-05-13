@@ -4,40 +4,39 @@ description: 'Run dynamic analysis tools'
 runs:
   using: "composite"
   steps:
+    # --- 1. SETUP VIRTUAL DISPLAY ---
+    - name: Install Virtual Display Dependencies
+      if: runner.os == 'Linux'
+      shell: bash
+      run: sudo apt-get update && sudo apt-get install -y xvfb
+
+    # --- 2. SANITIZERS (Linux & macOS) ---
     - name: Sanitizers
       shell: bash
-      # run one sanitizer for each env to avoid building extra binaries on one env
       if: matrix.runs_asan == true && runner.os != 'Windows'
-      # detect_leaks is not supported on macOS
-      # env:
-      #   ASAN_OPTIONS: detect_leaks=1
       run: |
-        cat "${INPUT_FILENAME}" | tr -d '\r' | ./${{ env.ZIP_NAME }}/"${EXECUTABLE_NAME}"
+        # Grant execution permissions
+        chmod +x "./${ZIP_NAME}/${EXECUTABLE_NAME}"
+        
+        # If Linux, wrap with xvfb. If Mac, run normally.
+        if [ "$RUNNER_OS" == "Linux" ]; then
+          cat "${INPUT_FILENAME}" | tr -d '\r' | xvfb-run -a "./${ZIP_NAME}/${EXECUTABLE_NAME}"
+        else
+          cat "${INPUT_FILENAME}" | tr -d '\r' | "./${ZIP_NAME}/${EXECUTABLE_NAME}"
+        fi
 
+    # --- 3. SANITIZERS (Windows MSVC) ---
     - name: Sanitizers (Windows MSVC)
       shell: bash
-      # run one sanitizer for each OS to avoid building extra binaries
       if: matrix.cxx == 'cl' && matrix.runs_asan == true
       continue-on-error: true
       run: |
-        cat "${INPUT_FILENAME}" | ./${{ env.ZIP_NAME }}/"${EXECUTABLE_NAME}".exe
-    - name: Run with Virtual Display (Linux)
-      if: runner.os == 'Linux'
-      shell: bash
-      run: |
-        sudo apt-get update && sudo apt-get install -y xvfb
-        
-        # 1. Debugging safety net: Find exactly where the executable is hiding
-        echo "Looking for the Luminomagus executable..."
-        find . -name "${{ env.EXECUTABLE_NAME }}"
-        
-        # 2. Grant explicit execute permissions to the file
-        chmod +x ./${{ env.ZIP_NAME }}/"${{ env.EXECUTABLE_NAME }}"
-        
-        # 3. Correct Pipeline: xvfb-run MUST wrap the executable, not the 'cat' command
-        cat "${INPUT_FILENAME}" | tr -d '\r' | xvfb-run -a ./${{ env.ZIP_NAME }}/"${{ env.EXECUTABLE_NAME }}"
+        cat "${INPUT_FILENAME}" | "./${ZIP_NAME}/${EXECUTABLE_NAME}.exe"
+
+    # --- 4. VALGRIND (Linux) ---
     - name: Valgrind
       shell: bash
       if: runner.os == 'Linux' && matrix.runs_valgrind == true
       run: |
-        bash ./scripts/run_valgrind.sh "${{ env.ZIP_NAME }}"
+        # Wrap Valgrind with the virtual display since it executes the game under the hood
+        xvfb-run -a bash ./scripts/run_valgrind.sh "${ZIP_NAME}"
