@@ -46,6 +46,12 @@ jobs:
     # renovate: depName=ubuntu
     runs-on: ubuntu-22.04
     timeout-minutes: 10
+    strategy:
+      matrix:
+        include:
+          - cmake_generator: Ninja
+            os: ubuntu-22.04
+            cxx: g++
     env:
       # renovate: datasource=github-tags depName=danmar/cppcheck versioning=loose
       CPPCHECK_VER: "2.19.1"
@@ -62,6 +68,12 @@ jobs:
     # renovate: depName=ubuntu
     runs-on: ubuntu-24.04
     timeout-minutes: 15
+    strategy:
+      matrix:
+        include:
+          - cmake_generator: Ninja
+            os: ubuntu-24.04
+            cxx: clang++-18
     env:
       CC: clang-18
       CXX: clang++-18
@@ -202,6 +214,10 @@ jobs:
 
       - name: Install packages
         uses: ./.github/actions/install-packages
+
+      - name: Set up MSVC environment
+        if: runner.os == 'Windows' && matrix.cxx == 'cl'
+        uses: ilammy/msvc-dev-cmd@v1
 
       - name: Configure CMake
         uses: ./.github/actions/configure-cmake

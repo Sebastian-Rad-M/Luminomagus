@@ -10,19 +10,17 @@ runs:
       if: runner.os == 'Linux'
       run: |
         sudo apt-get update
-        sudo apt-get install ninja-build
+        sudo apt-get install -y ninja-build jq xvfb
 
     - name: Install valgrind
       shell: bash
       if: runner.os == 'Linux' && matrix.runs_valgrind == true
       run: |
-        # sudo apt-get update
-        sudo apt-get install --no-install-recommends valgrind
+        sudo apt-get install -y --no-install-recommends valgrind
     - name: Install X11 and OpenGL (Linux)
       if: runner.os == 'Linux'
       shell: bash
       run: |
-        sudo apt-get update
         sudo apt-get install -y \
           libx11-dev \
           libxrandr-dev \
@@ -38,9 +36,3 @@ runs:
       run: |
         curl -L -o mesa.7z https://github.com/pal1000/mesa-dist-win/releases/download/24.0.7/mesa3d-24.0.7-release-msvc.7z
         7z e mesa.7z x64/opengl32.dll -o"./${{ env.ZIP_NAME }}"
-    - name: Run with Virtual Display
-      if: runner.os == 'Linux'
-      shell: bash
-      run: |
-        sudo apt-get update && sudo apt-get install -y xvfb
-        xvfb-run -a cat "${INPUT_FILENAME}" | tr -d '\r' | ./${{ env.ZIP_NAME }}/"${{ env.EXECUTABLE_NAME }}"
