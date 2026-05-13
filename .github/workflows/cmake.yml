@@ -232,6 +232,9 @@ jobs:
       - name: Install
         # Use CMake to "install" build artifacts (only interested in CMake registered targets) to our custom artifacts directory
         run: |
+          if [[ "${{ runner.os }}" == "Windows" && "${{ matrix.cxx }}" == "g++" ]]; then
+            export PATH="$(pwd)/gcc/mingw64/bin:$(pwd)/${{ env.BUILD_DIR }}/${{ env.BIN_DIR }}:${PATH}"
+          fi
           bash ./scripts/cmake.sh install -c ${{ env.BUILD_TYPE }} -i artifacts
 
       - name: Move artifacts
