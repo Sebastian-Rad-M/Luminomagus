@@ -219,6 +219,13 @@ jobs:
         if: runner.os == 'Windows' && matrix.cxx == 'cl'
         uses: ilammy/msvc-dev-cmd@v1
 
+      - name: Add MinGW and build bin to PATH
+        if: runner.os == 'Windows' && matrix.cxx == 'g++'
+        shell: bash
+        run: |
+          echo "$(pwd)/gcc/mingw64/bin" >> $GITHUB_PATH
+          echo "$(pwd)/${{ env.BUILD_DIR }}/${{ env.BIN_DIR }}" >> $GITHUB_PATH
+
       - name: Configure CMake
         uses: ./.github/actions/configure-cmake
         with:
