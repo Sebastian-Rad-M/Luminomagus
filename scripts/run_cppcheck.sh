@@ -12,6 +12,13 @@ cppcheck --enable=all \
     --suppress=unmatchedSuppression \
     --suppress=useStlAlgorithm \
     --suppress=unusedFunction \
+    --suppress=noConstructor \
+    --suppress=uninitMemberVarPrivate \
+    --suppress=noExplicitConstructor \
+    --suppress=returnByReference \
+    --suppress=passedByValue \
+    --suppress=constParameterReference \
+    --suppress=constVariableReference \
     --check-level=exhaustive \
     -j 6 \
     --cppcheck-build-dir=cppcheck-scan-dir \

@@ -155,6 +155,7 @@ std::unique_ptr<IStatus> BossFactory::getRandomBoss(char rarity) {
 		else if (rarity == 'E') pool = { BossType::ABSOLUTE_ZERO, BossType::LEVIATHAN, BossType::CROOKED_SCALE, BossType::FORCE_OF_GREED};
 			 else if (rarity == 'X') pool = { };
 	 				else throw std::invalid_argument("Unknown Boss Rarity");
-	std::uniform_int_distribution<size_t> dist(0, pool.size() - 1);
+	std::uniform_int_distribution<size_t> dist(0, pool.empty() ? 0 : pool.size() - 1);
+	if (pool.empty()) throw std::runtime_error("No bosses available for this rarity");
 	return createBoss(pool[dist(RNG::engine())]);
 }

@@ -222,7 +222,7 @@ jobs:
       - name: Configure CMake
         uses: ./.github/actions/configure-cmake
         with:
-          custom_flags: ${{ matrix.cmake_flags }}
+          custom_flags: "${{ matrix.cmake_flags }} -DCMAKE_INSTALL_RUNTIME_DEPENDENCY_RESOLUTION_IGNORE_ALL=TRUE"
           warnings_as_errors: 'ON'
 
       - name: Build
