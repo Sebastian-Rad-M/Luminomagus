@@ -21,23 +21,21 @@ runs:
       continue-on-error: true
       run: |
         cat "${INPUT_FILENAME}" | ./${{ env.ZIP_NAME }}/"${EXECUTABLE_NAME}".exe
-    - name: Run with Virtual Display
+    - name: Run with Virtual Display (Linux)
       if: runner.os == 'Linux'
       shell: bash
       run: |
-        # 1. Install the virtual framebuffer
         sudo apt-get update && sudo apt-get install -y xvfb
         
-        # 2. DEBUG: Print the contents of the directory so we can see if the file is actually there
-        echo "Checking contents of ${{ env.ZIP_NAME }}:"
-        ls -la ./${{ env.ZIP_NAME }}/
+        # 1. Debugging safety net: Find exactly where the executable is hiding
+        echo "Looking for the Luminomagus executable..."
+        find . -name "${{ env.EXECUTABLE_NAME }}"
         
-        # 3. Add execution permissions just in case it was lost during the move
+        # 2. Grant explicit execute permissions to the file
         chmod +x ./${{ env.ZIP_NAME }}/"${{ env.EXECUTABLE_NAME }}"
         
-        # 4. Correctly pipe the inputs INTO the xvfb-wrapped game
-        cat "${INPUT_FILENAME}" | tr -d '\r' | xvfb-run -a ./${{ env.ZIP_NAME }}/"${{ env.EXECUTABLE_NAME }}"
-    - name: Valgrind
+        # 3. Correct Pipeline: xvfb-run MUST wrap the executable, not the 'cat' command
+        cat "${INPUT_FILENAME}" | tr -d '\r' | xvfb-run -a ./${{ env.ZIP_NAME }}/"${{ env.EXECUTABLE_NAME }}"    - name: Valgrind
       shell: bash
       if: runner.os == 'Linux' && matrix.runs_valgrind == true
       run: |
