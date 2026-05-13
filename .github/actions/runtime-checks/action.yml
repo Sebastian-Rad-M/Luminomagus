@@ -35,7 +35,8 @@ runs:
         chmod +x ./${{ env.ZIP_NAME }}/"${{ env.EXECUTABLE_NAME }}"
         
         # 3. Correct Pipeline: xvfb-run MUST wrap the executable, not the 'cat' command
-        cat "${INPUT_FILENAME}" | tr -d '\r' | xvfb-run -a ./${{ env.ZIP_NAME }}/"${{ env.EXECUTABLE_NAME }}"    - name: Valgrind
+        cat "${INPUT_FILENAME}" | tr -d '\r' | xvfb-run -a ./${{ env.ZIP_NAME }}/"${{ env.EXECUTABLE_NAME }}"
+    - name: Valgrind
       shell: bash
       if: runner.os == 'Linux' && matrix.runs_valgrind == true
       run: |
