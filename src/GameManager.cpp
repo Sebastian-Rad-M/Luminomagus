@@ -199,9 +199,7 @@ void GameManager::run() {
 		auto time = (float)GetTime();
 		float resolution[2] = {(float)GetScreenWidth(), (float)GetScreenHeight()};
 
-		// --- BRANCH RENDERING BASED ON GAME STATE ---
 		if (currentState == GameState::COMBAT) {
-			// Draw the Combat Arena with Subtle Smoke
 			SetShaderValue(smokeShader, smokeTimeLoc, &time, SHADER_UNIFORM_FLOAT);
 
 			BeginShaderMode(smokeShader);

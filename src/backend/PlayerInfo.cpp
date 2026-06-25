@@ -4,8 +4,12 @@
 #include <vector>
 
 #include "PlayerInfo.h"
+#include "GameUtils.h"
 
-void PlayerInfo::addGold(const int amount) { gold += amount; }
+void PlayerInfo::addGold(const int amount) {
+	GameRange<int> goldRange(0, 99999);
+	gold = clampValue(gold + amount, goldRange);
+}
 bool PlayerInfo::spendGold(const int amount) {
 	if (gold < amount) return false;
 	gold -= amount;

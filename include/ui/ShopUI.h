@@ -10,7 +10,6 @@ class ShopListener : public Rml::EventListener {
 private:
     Rml::ElementDocument* shopDoc = nullptr;
     
-    // NO GLOBALS! Store the card template specifically for the shop instance.
     std::string cardTemplateRML;
     std::string relicTemplateRML;
 

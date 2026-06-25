@@ -32,7 +32,6 @@ void RoundTracker::drawCards(int amount) {
 
 #include <iostream>
 void RoundTracker::addStatus(std::unique_ptr<IStatus> status) {
-	// Minimal dynamic_cast for requirement compliance
 	if (dynamic_cast<OverchargeStatus*>(status.get())) {
 		std::cout << "[Debug] Applying Overcharge Status effect.\n";
 	}
